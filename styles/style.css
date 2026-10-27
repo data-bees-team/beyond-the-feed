@@ -1,0 +1,339 @@
+/* ===== GOOGLE FONTS ===== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+
+/* ===== TYPOGRAPHY ===== */
+
+/* Default font */
+html,
+body,
+.stApp,
+.stApp button,
+.stApp input,
+.stApp label {
+    font-family: 'DM Sans', sans-serif !important;
+}
+
+/* Main headings */
+h1,
+h2,
+h3 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    letter-spacing: -0.8px;
+    line-height: 1.25;
+}
+
+/* Paragraphs */
+p {
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+}
+
+/* News article titles */
+.news-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+
+
+
+/* ===== GLOBAL THEME ===== */
+
+:root {
+    --background: #F5F3EE;
+    --surface: #FAF9F6;
+    --surface-light: #EDEBE5;
+    --accent: #0D9488;
+    --text: #172033;
+    --muted: #64748B;
+    --border: #E5E2DA;
+}
+
+/* ===== PAGE BACKGROUND ===== */
+
+.stApp {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+/* ===== MAIN CONTENT ===== */
+
+.block-container {
+    max-width: 1250px;
+    padding-top: 4rem !important;
+    padding-bottom: 4rem;
+}
+
+/* ===== SIDEBAR ===== */
+
+section[data-testid="stSidebar"] {
+    background-color: #F8FAFC;
+    border-right: 1px solid var(--border);
+}
+
+/* ===== TEXT ===== */
+
+h1, h2, h3, h4, p, label {
+    color: var(--text);
+}
+
+.stCaption,
+[data-testid="stCaptionContainer"] {
+    color: var(--muted);
+}
+
+/* ===== PRIMARY BUTTON ===== */
+
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #2DD4BF, #14B8A6);
+    color: #06241F;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.stButton > button[kind="primary"]:hover {
+    background: #0D9488;
+    color: white;
+}
+
+/* ===== SECONDARY BUTTON ===== */
+
+.stButton > button[kind="secondary"] {
+    background: white;
+    color: #0F172A;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+}
+
+/* ===== MULTISELECT ===== */
+
+div[data-baseweb="select"] > div {
+    background-color: #F8FAFC !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 12px !important;
+    min-height: 52px;
+}
+
+/* Selected topic badges */
+
+div[data-baseweb="tag"] {
+    background-color: #CCFBF1 !important;
+    border-radius: 8px !important;
+}
+
+div[data-baseweb="tag"] *,
+span[data-baseweb="tag"] * {
+    color: #0F766E !important;
+}
+
+div[data-baseweb="select"]:focus-within > div {
+    border-color: #0D9488 !important;
+}
+
+/* ===== NEWS CARDS ===== */
+
+.news-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+    transition: 0.2s ease;
+}
+
+.news-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.08);
+    transform: translateY(-2px);
+}
+
+/* ===== TOPIC BADGES ===== */
+
+.topic-tag {
+    display: inline-block;
+    background: #CCFBF1;
+    color: #0F766E;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-right: 6px;
+}
+
+/* ===== HIDE STREAMLIT FOOTER ===== */
+
+footer {
+    visibility: hidden;
+}
+
+
+/* Comfortable spacing around the page */
+
+.block-container {
+    max-width: 1250px;
+    padding: 4rem 2.5rem !important;
+    margin: 0 auto;
+}
+
+
+/* ===== HOMEPAGE HERO ===== */
+
+.home-hero {
+    padding: 55px 0 25px;
+    max-width: 850px;
+}
+
+.hero-eyebrow {
+    color: #0D9488;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+}
+
+.home-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(44px, 5vw, 72px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -2px;
+    margin-bottom: 25px;
+}
+
+.home-title span {
+    color: #0D9488;
+}
+
+.home-description {
+    color: #64748B;
+    font-size: 19px;
+    line-height: 1.8;
+    max-width: 650px;
+}
+
+/* ===== FEATURE CARDS ===== */
+
+.feature-card {
+    background: #FAF9F6;
+    border: 1px solid #E5E2DA;
+    border-radius: 18px;
+    padding: 30px;
+    min-height: 240px;
+    transition: all 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    border-color: #0D9488;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.feature-icon {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    font-size: 23px;
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #64748B;
+}
+
+/* =====================================
+   NEWS ARTICLE CARDS
+===================================== */
+
+.news-card {
+    background: #FAF9F6;
+    border: 1px solid #E5E2DA;
+    border-radius: 18px;
+    padding: 28px;
+    margin-top: 16px;
+    margin-bottom: 10px;
+    transition: all 0.25s ease;
+}
+
+.news-card:hover {
+    border-color: #0D9488;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+    transform: translateY(-2px);
+}
+
+/* Small label above article */
+
+.news-card-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #0D9488;
+    margin-bottom: 16px;
+}
+
+/* Article title */
+
+.news-title {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #172033;
+    margin-bottom: 15px;
+}
+
+/* Publisher and country */
+
+.news-meta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #64748B;
+    margin-bottom: 18px;
+}
+
+/* Topic badges */
+
+.news-topics {
+    margin-bottom: 20px;
+}
+
+.topic-tag {
+    display: inline-block;
+    background: #DDF3EC;
+    color: #0F766E;
+    border-radius: 20px;
+    padding: 6px 12px;
+    margin-right: 7px;
+    margin-bottom: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Recommendation explanation */
+
+.news-reason {
+    background: #F0F5F0;
+    border-left: 3px solid #0D9488;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #475569;
+}
+
+.news-reason strong {
+    color: #0F766E;
+}
+
+.news-reason p {
+    margin: 8px 0 0;
+    line-height: 1.6;
+}
