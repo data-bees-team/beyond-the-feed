@@ -167,7 +167,9 @@ def recommend_geographic_mmr(
     weight_country: float = 1.0,
     weight_continent: float = 0.4,
     weight_secondary: float = 0.1,
-    weight_missing_geo: float = 0.5
+    weight_missing_geo: float = 0.5,
+    preference_profile: Optional[Any] = None,
+    alpha: float = 0.35
 ) -> pd.DataFrame:
     """
     Perform diversity-aware re-ranking using Maximal Marginal Relevance (MMR).
@@ -181,6 +183,8 @@ def recommend_geographic_mmr(
         weight_continent: Penalty for continent redundancy (default 0.4).
         weight_secondary: Penalty for secondary country overlap (default 0.1).
         weight_missing_geo: Neutral penalty for un-geotagged records (default 0.5).
+        preference_profile: Optional learned UserPreferenceProfile for adaptive personalization.
+        alpha: Personalization weight blending baseline and learned feedback (default 0.35).
 
     Returns:
         pd.DataFrame containing top_k recommendations with MMR scores and audit traces.
@@ -189,6 +193,20 @@ def recommend_geographic_mmr(
         return pd.DataFrame()
 
     pool = candidates_df.copy()
+
+    # Check and apply centralized personalization if active
+    use_personalized = False
+    if preference_profile is not None and getattr(preference_profile, "total_feedback_count", 0) > 0:
+        from recommender.personalization_engine import apply_personalization
+        pool = apply_personalization(pool, preference_profile, alpha=alpha)
+        use_personalized = True
+
+    # Ensure baseline_relevance is explicitly recorded
+    if "baseline_relevance" not in pool.columns:
+        pool["baseline_relevance"] = pool["relevance_score"].copy()
+
+    # Determine primary relevance column for MMR
+    rel_col = "personalized_relevance" if (use_personalized and "personalized_relevance" in pool.columns) else "relevance_score"
 
     # Ensure secondary countries set exists for fast lookup
     if "all_countries_set" not in pool.columns:
@@ -201,7 +219,7 @@ def recommend_geographic_mmr(
 
     # Deterministic sort: relevance descending, article_id ascending
     ranked_pool = pool.sort_values(
-        by=["relevance_score", "article_id"],
+        by=[rel_col, "article_id"],
         ascending=[False, True]
     )
 
@@ -218,9 +236,10 @@ def recommend_geographic_mmr(
             # First item selected by top relevance
             best_idx = 0
             best_item = candidate_records.pop(best_idx)
-            best_item["mmr_score"] = float(best_item["relevance_score"])
+            item_rel = float(best_item[rel_col])
+            best_item["mmr_score"] = item_rel
             best_item["geo_redundancy"] = 0.0
-            best_item["relevance_contribution"] = round(lambda_param * float(best_item["relevance_score"]), 4)
+            best_item["relevance_contribution"] = round(lambda_param * item_rel, 4)
             best_item["diversity_penalty"] = 0.0
             best_item["geo_explanation"] = "First selection (top relevance)"
             best_item["selection_rank"] = 1
@@ -242,23 +261,23 @@ def recommend_geographic_mmr(
                 weight_missing_geo=weight_missing_geo
             )
 
-            rel = float(candidate["relevance_score"])
+            rel = float(candidate[rel_col])
             mmr = (lambda_param * rel) - ((1.0 - lambda_param) * sim_geo)
 
             # Deterministic tie-breaking:
             # 1. Higher MMR score
-            # 2. Higher baseline relevance
+            # 2. Higher active relevance
             # 3. Lexicographically smaller article_id
             if (
                 best_idx == -1
                 or mmr > best_mmr + 1e-9
                 or (
                     abs(mmr - best_mmr) <= 1e-9
-                    and rel > candidate_records[best_idx]["relevance_score"] + 1e-9
+                    and rel > float(candidate_records[best_idx][rel_col]) + 1e-9
                 )
                 or (
                     abs(mmr - best_mmr) <= 1e-9
-                    and abs(rel - candidate_records[best_idx]["relevance_score"]) <= 1e-9
+                    and abs(rel - float(candidate_records[best_idx][rel_col])) <= 1e-9
                     and str(candidate["article_id"]) < str(candidate_records[best_idx]["article_id"])
                 )
             ):
@@ -268,9 +287,10 @@ def recommend_geographic_mmr(
                 best_explanation = reason
 
         chosen = candidate_records.pop(best_idx)
+        chosen_rel = float(chosen[rel_col])
         chosen["mmr_score"] = round(best_mmr, 4)
         chosen["geo_redundancy"] = round(best_redundancy, 4)
-        chosen["relevance_contribution"] = round(lambda_param * float(chosen["relevance_score"]), 4)
+        chosen["relevance_contribution"] = round(lambda_param * chosen_rel, 4)
         chosen["diversity_penalty"] = round((1.0 - lambda_param) * best_redundancy, 4)
         chosen["geo_explanation"] = best_explanation
         chosen["selection_rank"] = len(selected_items) + 1
