@@ -15,7 +15,12 @@ if str(project_root) not in sys.path:
 
 from components.news_card import display_news_card
 from utils.data_loader import load_articles
-from recommender.baseline import recommend_baseline
+from recommender.baseline import recommend_baseline, score_all_candidates
+from recommender.geographic_diversity import (
+    recommend_geographic_mmr,
+    generate_natural_explanation,
+    evaluate_slate,
+)
 
 
 # =====================================
@@ -149,6 +154,32 @@ if st.button(
 
 
 # =====================================
+# SIDEBAR CONFIGURATION (OPTIONAL CONTROLS)
+# =====================================
+
+with st.sidebar.expander("⚙️ Recommendation Preferences", expanded=False):
+    st.caption("Configurable parameters for the multi-stage recommendation pipeline.")
+    top_k_param = st.slider("Recommendations (K)", min_value=5, max_value=20, value=10, step=1)
+    lambda_param = st.slider(
+        "Geographic Diversity (λ)",
+        min_value=0.1,
+        max_value=1.0,
+        value=0.6,
+        step=0.05,
+        help="Controls the balance between topic relevance (1.0) and geographic diversity (0.0). Default 0.6."
+    )
+    top_m_candidates = st.slider(
+        "Candidate Pool (M)",
+        min_value=100,
+        max_value=1000,
+        value=500,
+        step=50,
+        help="Number of top relevance candidates evaluated during re-ranking."
+    )
+    show_insights = st.checkbox("Show Slate Diversity Insights", value=False)
+
+
+# =====================================
 # DISPLAY PERSONALIZED FEED
 # =====================================
 
@@ -162,57 +193,86 @@ if st.session_state["feed_generated"]:
     st.markdown("### 📰 Your Daily Discoveries")
 
     st.caption(
-        "🧪 Baseline preview — recommendations based on your selected topics. "
-        "Interest Bridging and diversity improvements will be integrated later."
+        "🌍 Powered by Geographic Diversity Re-ranking (MMR). "
+        "Balancing your topical interests with broad global perspectives across countries and continents."
     )
 
     # =====================================
-    # BASELINE RECOMMENDATIONS
+    # MULTI-STAGE RECOMMENDATION PIPELINE
     # =====================================
 
-    preview_articles = recommend_baseline(
-        df,
-        user_profile,
-        top_k=10
-    )
+    # Stage 1: Candidate Generation & Baseline Relevance Scoring
+    eligible_candidates = score_all_candidates(df, user_profile)
 
-    # =====================================
-    # DISPLAY NEWS CARDS
-    # =====================================
+    if eligible_candidates.empty:
+        st.info("No matching articles found for your selected topics. Please try selecting different topics.")
+    else:
+        # Stage 2: Geographic Diversity MMR Re-ranking
+        # Enforces candidate pool >= requested top_k
+        actual_m = max(top_m_candidates, top_k_param)
 
-    for _, row in preview_articles.iterrows():
+        recommended_articles = recommend_geographic_mmr(
+            candidates_df=eligible_candidates,
+            top_k=top_k_param,
+            lambda_param=lambda_param,
+            top_m_candidates=actual_m,
+            weight_country=1.0,
+            weight_continent=0.4,
+            weight_secondary=0.1,
+            weight_missing_geo=0.5
+        )
 
-        # Identify which interests matched this article
-        matched_topics = [
-            topic
-            for topic in row["topic_list"]
-            if topic in saved_topics
-        ]
-
-        # Generate recommendation explanation
-        if matched_topics:
-
-            reason = (
-                "Matches your interest in "
-                + ", ".join(matched_topics)
-                + "."
+        # Optional Slate Diversity Insights
+        if show_insights and not recommended_articles.empty:
+            metrics = evaluate_slate(recommended_articles)
+            st.markdown(
+                f"""
+                <div style="background-color:#F1F5F9; border-radius:8px; padding:12px 18px; margin-bottom:20px; font-size:14px; color:#334155;">
+                    <strong>📊 Slate Diversity Insights:</strong> &nbsp;
+                    🌍 <strong>{metrics['unique_countries']}</strong> countries &nbsp;·&nbsp;
+                    🌐 <strong>{metrics['unique_continents']}</strong> continents &nbsp;·&nbsp;
+                    📰 <strong>{metrics['unique_publishers']}</strong> publishers &nbsp;·&nbsp;
+                    🎯 <strong>{metrics['avg_relevance']:.2f}</strong> avg relevance
+                </div>
+                """,
+                unsafe_allow_html=True
             )
 
-        else:
-            reason = "Recommended based on your interests."
+        # =====================================
+        # DISPLAY NEWS CARDS
+        # =====================================
 
-        # Prepare article information
-        article = {
-            "title": row["title"],
-            "publisher": row["publisher"],
-            "country": row["country"],
-            "topics": row["topic_list"],
-            "url": row["article_url"],
-            "reason": reason
-        }
+        for _, row in recommended_articles.iterrows():
 
-        # Display article card
-        display_news_card(article)
+            # Identify which interests matched this article
+            matched_topics = [
+                topic
+                for topic in row["topic_list"]
+                if topic in saved_topics
+            ]
+
+            # Generate natural geographic and topic explanation
+            reason = generate_natural_explanation(
+                rank=int(row.get("selection_rank", 1)),
+                country=row.get("country"),
+                continent=row.get("continent"),
+                matched_topics=matched_topics,
+                sim_geo=float(row.get("geo_redundancy", 0.0))
+            )
+
+            # Prepare article information
+            article = {
+                "title": row.get("title", "Untitled Article"),
+                "publisher": row.get("publisher", "Unknown Publisher"),
+                "country": row.get("country"),
+                "continent": row.get("continent"),
+                "topics": row.get("topic_list", []),
+                "url": row.get("article_url"),
+                "reason": reason
+            }
+
+            # Display article card
+            display_news_card(article)
 
 
 

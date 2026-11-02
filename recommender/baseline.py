@@ -17,28 +17,39 @@ def calculate_relevance(topic_list, user_profile):
     ) / len(valid_topics)
 
 
-def recommend_baseline(df, user_profile, top_k=10):
+def score_all_candidates(df, user_profile):
     """
-    Return the top-k most relevant articles.
+    Score all articles against user topic preferences and return all eligible
+    candidates (relevance_score > 0) deterministically sorted by relevance descending,
+    article_id ascending.
+
+    This preserves the full candidate pool for multi-stage re-ranking components
+    (such as Geographic Diversity MMR) rather than truncating prematurely.
     """
+    candidates = df.copy()
 
-    recommendations = df.copy()
-
-    recommendations["relevance_score"] = (
-        recommendations["topic_list"].apply(
+    candidates["relevance_score"] = (
+        candidates["topic_list"].apply(
             lambda topics: calculate_relevance(
                 topics, user_profile
             )
         )
     )
 
-    recommendations = recommendations[
-        recommendations["relevance_score"] > 0
+    candidates = candidates[
+        candidates["relevance_score"] > 0
     ]
 
-    recommendations = recommendations.sort_values(
+    return candidates.sort_values(
         by=["relevance_score", "article_id"],
         ascending=[False, True]
-    )
+    ).copy()
 
-    return recommendations.head(top_k).copy()
+
+def recommend_baseline(df, user_profile, top_k=10):
+    """
+    Return the top-k most relevant articles using pure relevance ranking
+    and deterministic tie-breaking.
+    """
+    candidates = score_all_candidates(df, user_profile)
+    return candidates.head(top_k).copy()

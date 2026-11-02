@@ -1,0 +1,4 @@
+user_profile,baseline_avg_relevance,mmr_avg_relevance,relevance_degradation_pct,baseline_unique_countries,mmr_unique_countries,baseline_unique_continents,mmr_unique_continents,baseline_country_hhi,mmr_country_hhi
+Tech Enthusiast,0.8,0.78,2.5,6,10,3,6,0.2,0.1
+Environment Explorer,0.9,0.9,0.0,5,10,4,6,0.28,0.1
+Health Researcher,0.9,0.9,0.0,5,10,2,6,0.32,0.1
