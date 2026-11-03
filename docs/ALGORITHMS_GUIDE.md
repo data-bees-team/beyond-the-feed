@@ -14,7 +14,7 @@ This guide explains each recommendation algorithm and personalization component 
 
 ---
 
-## 2. Geographic Diversity Re-Ranking (MMR) — *Your Core Task*
+## 2. Geographic Diversity Re-Ranking (MMR) — *Shahida's Core Task*
 * **File:** [`recommender/geographic_diversity.py`](file:///Users/shahidabatool/Desktop/Hackathon_global_news/beyond-the-feed/recommender/geographic_diversity.py)
 * **What it does:**  
   Iteratively selects articles using **Maximal Marginal Relevance (MMR)** by penalizing geographic redundancy relative to articles already chosen:
@@ -26,6 +26,20 @@ This guide explains each recommendation algorithm and personalization component 
   * Distinct continent & country: $0.0$ (novel global perspective)
 * **Why we need it:**  
   **54.3% of all global news in GDELT comes from just three countries (US, UK, India)**, while Africa has only 5.3% and South America just 1.1%. Without this algorithm, pure relevance recommenders trap users in a Western/Anglo-centric echo chamber. Geographic MMR increases country representation by **+88.7%** (10 distinct countries per 10 articles) while retaining high relevance.
+
+---
+
+## 2B. Publisher Diversity Re-Ranking (MMR) — *Suraiya's Core Task*
+* **File:** [`recommender/publisher_diversity.py`](file:///C:/Users/Surayia%20Rahman/.gemini/antigravity/scratch/beyond-the-feed/recommender/publisher_diversity.py)
+* **What it does:**  
+  Iteratively selects articles using **Publisher-Aware Maximal Marginal Relevance (MMR)** by balancing topic relevance against publisher concentration:
+  $$\mathrm{Score}(a, S) = \lambda \cdot \mathrm{Rel}(u, a) - (1 - \lambda) \cdot \mathrm{Redundancy}_{\mathrm{pub}}(a, S)$$
+  * Novel publisher ($count = 0$ in slate $S$): $\mathrm{Redundancy} = 0.0$ (novel voice encouraged)
+  * Repeated publisher ($count \ge 1$ in slate $S$): $\mathrm{Redundancy} = 1.0$ (redundancy penalty)
+  * Missing/Unknown publisher: $\mathrm{Redundancy} = 0.5$ (neutral penalty; prevents treating missing data as a diversity feature)
+  * Tunable parameter $\lambda \in [0, 1]$ (default $\lambda = 0.6$)
+* **Why we need it:**  
+  High-volume news organizations (such as `iheart.com` and `indiatimes.com`) frequently dominate greedy relevance rankings. For example, in baseline recommendations for the *Health Researcher* profile, multiple articles repeat the same publisher (`iheart.com`, `irishexaminer.com`), reducing distinct publisher exposure to 8/10. Publisher MMR eliminates monopolization by dominant media houses, maximizes distinct viewpoints, and lowers the Herfindahl-Hirschman Index (HHI) while preserving high topic relevance.
 
 ---
 
@@ -87,6 +101,7 @@ This guide explains each recommendation algorithm and personalization component 
 | :--- | :--- | :--- |
 | **Baseline Recommender** | Content-based topic matching | Establishes raw relevance anchor |
 | **Geographic Diversity (MMR)** | Multi-continental representation | Eliminates the 54% US/UK/India news monopoly |
+| **Publisher Diversity (MMR)** | News source pluralism | Prevents dominant media outlets (e.g. iheart, indiatimes) from monopolizing recommendations |
 | **User Feedback Manager** | Persistent SQLite storage | Remembers 👍/👎 clicks across sessions |
 | **User Preference Learning** | Mathematical affinity modeling | Learns nuanced tastes with smoothing protection |
 | **Personalization Engine** | Blended candidate scoring | Tunes relevance without erasing baseline scores |

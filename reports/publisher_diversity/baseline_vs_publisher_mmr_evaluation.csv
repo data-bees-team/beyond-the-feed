@@ -1,0 +1,16 @@
+Profile,Metric,Baseline (Top-10),MMR (lambda=0.6),Absolute Change,Relative Change (%)
+Tech Enthusiast,Average Relevance,0.8,0.8,0.0,0.00%
+Tech Enthusiast,Unique Publishers,10,10,0,+0.0%
+Tech Enthusiast,Publisher Concentration (HHI),0.1,0.1,0.0,0.0% concentration
+Tech Enthusiast,Top Publisher Market Share,10.0%,10.0%,0.0%,0.0%
+Tech Enthusiast,Unique Countries (Preserved),6,6,0,0.0%
+Environment Explorer,Average Relevance,0.9,0.9,0.0,0.00%
+Environment Explorer,Unique Publishers,10,10,0,+0.0%
+Environment Explorer,Publisher Concentration (HHI),0.1,0.1,0.0,0.0% concentration
+Environment Explorer,Top Publisher Market Share,10.0%,10.0%,0.0%,0.0%
+Environment Explorer,Unique Countries (Preserved),5,5,0,0.0%
+Health Researcher,Average Relevance,0.9,0.9,0.0,0.00%
+Health Researcher,Unique Publishers,8,10,2,+25.0%
+Health Researcher,Publisher Concentration (HHI),0.14,0.1,-0.04,-28.6% concentration
+Health Researcher,Top Publisher Market Share,20.0%,10.0%,-10.0%,-50.0%
+Health Researcher,Unique Countries (Preserved),5,5,0,0.0%
