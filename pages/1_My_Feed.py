@@ -22,6 +22,11 @@ from recommender.geographic_diversity import (
     generate_natural_explanation,
     evaluate_slate,
 )
+from recommender.publisher_diversity import (
+    recommend_publisher_mmr,
+    generate_natural_publisher_explanation,
+    evaluate_publisher_slate,
+)
 from recommender.interest_bridging import recommend_interest_bridging
 from recommender.feed_composer import compose_balanced_feed
 
@@ -236,6 +241,7 @@ with st.sidebar.expander("⚙️ Recommendation Engine Settings", expanded=False
         "Recommendation Method",
         options=[
             "🌍 Geographic Diversity (MMR)",
+            "📰 Publisher Diversity (MMR)",
             "🌐 Balanced Feed (Personalized + Discovery)",
             "🌉 Interest Bridging (Topic Discovery)",
             "📊 Baseline (Standard Relevance)"
@@ -294,6 +300,11 @@ if st.session_state["feed_generated"]:
             "🌍 **Geographic Diversity Re-ranking (MMR):** Balancing your topical interests with "
             "broad global perspectives across countries and continents, adapted to your feedback."
         )
+    elif "Publisher" in algo_choice:
+        st.caption(
+            "📰 **Publisher Diversity Re-ranking (MMR):** Mitigating media concentration and "
+            "maximizing editorial pluralism across distinct news organizations, adapted to your feedback."
+        )
     elif "Balanced" in algo_choice:
         st.caption(
             "🌐 **Balanced Multi-Objective Feed:** 70% personalized core stories + 30% discovery and "
@@ -341,6 +352,19 @@ if st.session_state["feed_generated"]:
                 alpha=alpha_param
             )
             algo_key = "geographic_mmr"
+
+        elif "Publisher" in algo_choice:
+            recommended_articles = recommend_publisher_mmr(
+                candidates_df=eligible_candidates,
+                top_k=top_k_param,
+                lambda_param=lambda_param,
+                top_m_candidates=actual_m,
+                weight_repeat_publisher=1.0,
+                weight_missing_publisher=0.5,
+                preference_profile=user_pref_profile,
+                alpha=alpha_param
+            )
+            algo_key = "publisher_mmr"
 
         elif "Balanced" in algo_choice:
             recommended_articles = compose_balanced_feed(

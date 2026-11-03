@@ -17,6 +17,7 @@ import numpy as np
 
 from recommender.user_preferences import UserPreferenceProfile
 from recommender.geographic_diversity import recommend_geographic_mmr
+from recommender.publisher_diversity import recommend_publisher_mmr
 from recommender.interest_bridging import recommend_interest_bridging
 from recommender.baseline import score_all_candidates
 from recommender.personalization_engine import DEFAULT_ALPHA_PERSONALIZATION
@@ -67,14 +68,39 @@ def compose_balanced_feed(
     if candidates.empty:
         return pd.DataFrame()
 
-    # Generate personalized items using Geographic Diversity MMR
-    pers_df = recommend_geographic_mmr(
-        candidates_df=candidates,
-        top_k=k_personalized,
-        lambda_param=lambda_param,
-        preference_profile=preference_profile,
-        alpha=alpha
-    )
+    # Generate personalized items using selected diversity engine
+    if diversity_method.lower() == "publisher":
+        pers_df = recommend_publisher_mmr(
+            candidates_df=candidates,
+            top_k=k_personalized,
+            lambda_param=lambda_param,
+            preference_profile=preference_profile,
+            alpha=alpha
+        )
+    elif diversity_method.lower() in {"combined", "hybrid"}:
+        # Two-stage multi-diversity: filter geographic variety then de-concentrate publishers
+        geo_pool = recommend_geographic_mmr(
+            candidates_df=candidates,
+            top_k=min(len(candidates), k_personalized * 3),
+            lambda_param=lambda_param,
+            preference_profile=preference_profile,
+            alpha=alpha
+        )
+        pers_df = recommend_publisher_mmr(
+            candidates_df=geo_pool,
+            top_k=k_personalized,
+            lambda_param=lambda_param,
+            preference_profile=preference_profile,
+            alpha=alpha
+        )
+    else:
+        pers_df = recommend_geographic_mmr(
+            candidates_df=candidates,
+            top_k=k_personalized,
+            lambda_param=lambda_param,
+            preference_profile=preference_profile,
+            alpha=alpha
+        )
 
     pers_df["feed_lane"] = "personalized"
     pers_df["feed_badge"] = "✦ CURATED FOR YOU"
