@@ -1,65 +1,85 @@
-import streamlit as st
 from pathlib import Path
 from datetime import datetime
 import sys
+import os
+import streamlit as st
+import pandas as pd
+import numpy as np
 
 # =====================================
-# PROJECT PATH
+# PROJECT PATH & MODULE IMPORTS
 # =====================================
-
 project_root = Path(__file__).resolve().parent.parent
-
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
+from components.auth import render_sidebar_auth
 from components.news_card import display_news_card
 from utils.data_loader import load_articles
 from utils.feedback_manager import get_feedback_manager
+from utils.user_manager import get_user_manager, DEMO_PERSONAS
+from utils.db_manager import (
+    init_db,
+    save_user_topics,
+    get_connection,
+    log_recommended_articles,
+    get_seen_article_ids
+)
+from recommender.nlp_profile import (
+    get_or_create_user_vector,
+    compute_nlp_content_scores
+)
 from recommender.user_preferences import build_user_preference_profile
 from recommender.baseline import recommend_baseline, score_all_candidates
 from recommender.geographic_diversity import (
     recommend_geographic_mmr,
-    generate_natural_explanation,
     evaluate_slate,
 )
 from recommender.publisher_diversity import (
     recommend_publisher_mmr,
-    generate_natural_publisher_explanation,
     evaluate_publisher_slate,
 )
 from recommender.interest_bridging import recommend_interest_bridging
 from recommender.feed_composer import compose_balanced_feed
 
+# Initialize Database
+init_db()
 
 # =====================================
-# LOAD DATA & FEEDBACK MANAGER
+# LOAD DATA & EMBEDDINGS
 # =====================================
-
 df = load_articles()
 feedback_mgr = get_feedback_manager()
+user_mgr = get_user_manager()
 
-st.caption(f"📰 {len(df):,} news articles available")
+@st.cache_data
+def load_article_embeddings(df_data):
+    emb_path = os.path.join("data", "article_embeddings.npy")
+    if os.path.exists(emb_path):
+        embeddings = np.load(emb_path)
+    else:
+        embeddings = np.zeros((len(df_data), 768))
+        
+    embeddings_dict = {
+        str(row['article_id'] if 'article_id' in row else idx): embeddings[idx] 
+        for idx, row in df_data.iterrows()
+    }
+    return embeddings, embeddings_dict
 
+embeddings, embeddings_dict = load_article_embeddings(df)
 
 # =====================================
 # LOAD CUSTOM CSS
 # =====================================
-
 css_path = project_root / "styles" / "style.css"
-
-with open(css_path, encoding="utf-8") as f:
-    st.markdown(
-        f"<style>{f.read()}</style>",
-        unsafe_allow_html=True
-    )
-
+if os.path.exists(css_path):
+    with open(css_path, encoding="utf-8") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # =====================================
 # PAGE HEADER
 # =====================================
-
 hour = datetime.now().hour
-
 if hour < 12:
     greeting = "Good Morning"
 elif hour < 17:
@@ -86,19 +106,66 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# =====================================
+# SIDEBAR: AUTHENTICATION & PERSONAS
+# =====================================
+render_sidebar_auth()
+
+if "user_profile" not in st.session_state:
+    st.session_state["user_profile"] = None
+
+if "feed_generated" not in st.session_state:
+    st.session_state["feed_generated"] = False
+
+if "current_feed_slate" not in st.session_state:
+    st.session_state["current_feed_slate"] = None
+
+active_user_id = st.session_state.get("user_id", "demo_user")
+
+with st.sidebar:
+    st.markdown("---")
+    # Fetch latest user feedback dynamically
+    user_feedback_records = feedback_mgr.get_feedback_records(user_id=active_user_id)
+    user_pref_profile = build_user_preference_profile(user_feedback_records, user_id=active_user_id)
+    user_fb_map = feedback_mgr.get_user_feedback(active_user_id)
+
+    # User Feedback Insights
+    st.markdown("### Adaptive Learning Profile")
+    st.caption("Shared preferences learned from your interactions.")
+
+    col_m1, col_m2, col_m3 = st.columns(3)
+    col_m1.metric("Interactions", user_pref_profile.total_feedback_count)
+    col_m2.metric("👍 Likes", user_pref_profile.interested_count)
+    col_m3.metric("👎 Dislikes", user_pref_profile.not_interested_count)
+
+    top_pos_topics = user_pref_profile.get_top_preferred_topics(3)
+    top_neg_topics = user_pref_profile.get_dispreferred_topics(3)
+
+    if top_pos_topics:
+        st.markdown("**Top Liked Topics:**")
+        st.markdown(" ".join(f"`{t[0]}`" for t in top_pos_topics))
+
+    if top_neg_topics:
+        st.markdown("**Downvoted Topics:**")
+        st.markdown(" ".join(f"`{t[0]}`" for t in top_neg_topics))
+
+    if user_pref_profile.total_feedback_count == 0:
+        st.caption("No feedback recorded yet. Rate articles below to teach the system your preferences.")
+
+    st.markdown("---")
+
+algo_choice = st.session_state.get("algo_choice", "🌐 Balanced Feed (Personalized + Discovery)")
+top_k_param = st.session_state.get("top_k_param", 10)
+lambda_param = st.session_state.get("lambda_param", 0.60)
+alpha_param = st.session_state.get("alpha_param", 0.35)
 
 # =====================================
-# TOPIC SELECTION
+# USER INTEREST SELECTION
 # =====================================
-
 st.subheader("✨ Personalize Your Experience")
+st.caption("Choose your favorite topics. We'll help you discover stories beyond them.")
 
-st.caption(
-    "Choose your favorite topics. "
-    "We'll help you discover stories beyond them."
-)
-
-topics = [
+topics_list = [
     "Technology",
     "Business and Economy",
     "Health",
@@ -110,361 +177,198 @@ topics = [
     "Conflict and Security"
 ]
 
-
-# =====================================
-# SESSION STATE INITIALIZATION
-# =====================================
-
-if "user_profile" not in st.session_state:
-    st.session_state["user_profile"] = None
-
-if "feed_generated" not in st.session_state:
-    st.session_state["feed_generated"] = False
-
-if "active_user_id" not in st.session_state:
-    st.session_state["active_user_id"] = "demo_user"
-
-
-# =====================================
-# SIDEBAR: USER ACCOUNT & PREFERENCES DASHBOARD
-# =====================================
-
-with st.sidebar:
-    st.markdown("### 👤 User Account")
-    user_choice = st.selectbox(
-        "Active Profile",
-        options=["demo_user", "analyst_user", "global_reader", "custom_user"],
-        index=0,
-        help="Select a profile to experience independent user preferences and feedback history."
-    )
-    st.session_state["active_user_id"] = user_choice
-    active_user_id = st.session_state["active_user_id"]
-
-    # Retrieve feedback and build preference profile
-    user_feedback_records = feedback_mgr.get_feedback_records(user_id=active_user_id)
-    user_pref_profile = build_user_preference_profile(user_feedback_records, user_id=active_user_id)
-    user_fb_map = feedback_mgr.get_user_feedback(active_user_id)
-
-    # User Feedback Insights
-    st.markdown("### 📊 Adaptive Learning Profile")
-    st.caption("Shared preferences learned from your 👍 / 👎 interactions across all recommendation methods.")
-
-    col_m1, col_m2, col_m3 = st.columns(3)
-    col_m1.metric("Interactions", user_pref_profile.total_feedback_count)
-    col_m2.metric("👍 Likes", user_pref_profile.interested_count)
-    col_m3.metric("👎 Dislikes", user_pref_profile.not_interested_count)
-
-    # Show top preferred and dispreferred signals
-    top_pos_topics = user_pref_profile.get_top_preferred_topics(3)
-    top_neg_topics = user_pref_profile.get_dispreferred_topics(3)
-    top_pos_pubs = user_pref_profile.get_preferred_publishers(2)
-    top_pos_countries = user_pref_profile.get_preferred_countries(2)
-
-    if top_pos_topics:
-        st.markdown("**Top Liked Topics:**")
-        st.markdown(" ".join(f"`{t[0]}`" for t in top_pos_topics))
-
-    if top_neg_topics:
-        st.markdown("**Downvoted Topics:**")
-        st.markdown(" ".join(f"`{t[0]}`" for t in top_neg_topics))
-
-    if top_pos_pubs:
-        st.markdown("**Preferred Publishers:**")
-        st.markdown(", ".join(f"*{p[0]}*" for p in top_pos_pubs))
-
-    if top_pos_countries:
-        st.markdown("**Preferred Regions:**")
-        st.markdown(", ".join(f"🌍 {c[0]}" for c in top_pos_countries))
-
-    if user_pref_profile.total_feedback_count == 0:
-        st.caption("No feedback recorded yet. Rate articles below to teach the system your preferences.")
-
-    # Reset feedback option with confirmation
-    with st.expander("🗑️ Reset User Feedback Profile", expanded=False):
-        confirm_reset = st.checkbox("I understand this will erase my learned preferences", key="chk_confirm_reset")
-        if st.button("Reset Profile", type="secondary", disabled=not confirm_reset):
-            deleted = feedback_mgr.clear_user_feedback(active_user_id)
-            st.success(f"Cleared {deleted} feedback interactions.")
-            st.rerun()
-
-    st.markdown("---")
-
-
-# =====================================
-# USER INTEREST SELECTION
-# =====================================
-
 selected_topics = st.multiselect(
     "What topics are you interested in?",
-    options=topics,
+    options=topics_list,
+    default=["Technology"] if "user_profile" not in st.session_state or not st.session_state["user_profile"] else list(st.session_state["user_profile"].keys()),
     placeholder="Choose your interests..."
 )
 
+def generate_new_slate():
+    """Generates a fresh 10-article slate using deduplication and stores it in session_state."""
+    user_profile = {topic: 1.0 for topic in selected_topics}
+    st.session_state["user_profile"] = user_profile
+    st.session_state["feed_generated"] = True
+    save_user_topics(active_user_id, st.session_state.get("username", "Guest"), selected_topics)
+    
+    # Dynamic NLP scoring
+    user_vec = get_or_create_user_vector(active_user_id, embeddings_dict)
+    df['nlp_score'] = compute_nlp_content_scores(user_vec, embeddings)
 
-# =====================================
-# GENERATE FEED BUTTON
-# =====================================
-
-if st.button(
-    "✨ Generate My Feed",
-    type="primary"
-):
-
-    if not selected_topics:
-        st.warning("Please select at least one topic.")
-
-    else:
-
-        # Create user interest profile
-        user_profile = {
-            topic: 1.0
-            for topic in selected_topics
-        }
-
-        # Save user profile
-        st.session_state["user_profile"] = user_profile
-
-        # Remember that a feed has been generated
-        st.session_state["feed_generated"] = True
-
-        st.success("✨ Your personalized feed is ready!")
-
-
-# =====================================
-# SIDEBAR CONFIGURATION (PIPELINE CONTROLS)
-# =====================================
-
-with st.sidebar.expander("⚙️ Recommendation Engine Settings", expanded=False):
-    st.caption("Configurable parameters for the multi-stage recommendation pipeline.")
-
-    algo_choice = st.selectbox(
-        "Recommendation Method",
-        options=[
-            "🌍 Geographic Diversity (MMR)",
-            "📰 Publisher Diversity (MMR)",
-            "🌐 Balanced Feed (Personalized + Discovery)",
-            "🌉 Interest Bridging (Topic Discovery)",
-            "📊 Baseline (Standard Relevance)"
-        ],
-        index=0,
-        help="Select which recommendation engine generates your feed."
-    )
-
-    top_k_param = st.slider("Recommendations (K)", min_value=5, max_value=20, value=10, step=1)
-
-    lambda_param = st.slider(
-        "Diversity Weight (λ)",
-        min_value=0.1,
-        max_value=1.0,
-        value=0.6,
-        step=0.05,
-        help="Controls the balance between relevance (1.0) and diversity (0.0). Default 0.6."
-    )
-
-    alpha_param = st.slider(
-        "Feedback Personalization (α)",
-        min_value=0.0,
-        max_value=0.8,
-        value=0.35,
-        step=0.05,
-        help="How strongly user feedback guides candidate relevance. 0.0 uses raw topic intent only; 0.35 is recommended."
-    )
-
-    top_m_candidates = st.slider(
-        "Candidate Pool (M)",
-        min_value=100,
-        max_value=1000,
-        value=500,
-        step=50,
-        help="Number of top relevance candidates evaluated during re-ranking."
-    )
-
-    show_insights = st.checkbox("Show Slate Diversity Insights", value=True)
-
-
-# =====================================
-# DISPLAY PERSONALIZED FEED
-# =====================================
-
-if st.session_state["feed_generated"]:
-
-    # Retrieve saved user interests
-    user_profile = st.session_state["user_profile"]
-    saved_topics = list(user_profile.keys())
-
-    st.markdown("### 📰 Your Daily Discoveries")
-
-    # Algorithm description banner
-    if "Geographic" in algo_choice:
-        st.caption(
-            "🌍 **Geographic Diversity Re-ranking (MMR):** Balancing your topical interests with "
-            "broad global perspectives across countries and continents, adapted to your feedback."
-        )
-    elif "Publisher" in algo_choice:
-        st.caption(
-            "📰 **Publisher Diversity Re-ranking (MMR):** Mitigating media concentration and "
-            "maximizing editorial pluralism across distinct news organizations, adapted to your feedback."
-        )
-    elif "Balanced" in algo_choice:
-        st.caption(
-            "🌐 **Balanced Multi-Objective Feed:** 70% personalized core stories + 30% discovery and "
-            "interest-bridging perspectives to prevent echo chambers."
-        )
-    elif "Bridging" in algo_choice:
-        st.caption(
-            "🌉 **Interest Bridging:** Discovering adjacent, serendipitous connections that link your "
-            "core topics with new perspectives."
-        )
-    else:
-        st.caption(
-            "📊 **Baseline Relevance:** Standard topic-matching ranking, boosted by your learned preferences."
-        )
-
-    # =====================================
-    # MULTI-STAGE RECOMMENDATION PIPELINE
-    # =====================================
-
-    actual_m = max(top_m_candidates, top_k_param)
-
-    # Candidate Retrieval & Relevance Scoring
-    eligible_candidates = score_all_candidates(
+    # Relevance scoring
+    scored_df = score_all_candidates(
         df=df,
         user_profile=user_profile,
         preference_profile=user_pref_profile,
         alpha=alpha_param
     )
 
-    if eligible_candidates.empty:
-        st.info("No matching articles found for your selected topics. Please try selecting different topics.")
+    # Fetch seen IDs
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT DISTINCT article_id FROM recommendation_history WHERE user_id = ?", (active_user_id,))
+        seen_ids = [str(r["article_id"]) for r in cursor.fetchall()]
+
+    if seen_ids:
+        available_articles = scored_df[~scored_df['article_id'].astype(str).isin(seen_ids)]
     else:
-        # Route to selected recommendation algorithm
-        if "Geographic" in algo_choice:
-            recommended_articles = recommend_geographic_mmr(
-                candidates_df=eligible_candidates,
-                top_k=top_k_param,
-                lambda_param=lambda_param,
-                top_m_candidates=actual_m,
-                weight_country=1.0,
-                weight_continent=0.4,
-                weight_secondary=0.1,
-                weight_missing_geo=0.5,
-                preference_profile=user_pref_profile,
-                alpha=alpha_param
-            )
-            algo_key = "geographic_mmr"
+        available_articles = scored_df.copy()
 
-        elif "Publisher" in algo_choice:
-            recommended_articles = recommend_publisher_mmr(
-                candidates_df=eligible_candidates,
-                top_k=top_k_param,
-                lambda_param=lambda_param,
-                top_m_candidates=actual_m,
-                weight_repeat_publisher=1.0,
-                weight_missing_publisher=0.5,
-                preference_profile=user_pref_profile,
-                alpha=alpha_param
-            )
-            algo_key = "publisher_mmr"
+    if selected_topics:
+        eligible_candidates = available_articles[available_articles['topic'].isin(selected_topics)]
+        if eligible_candidates.empty:
+            eligible_candidates = available_articles.copy()
+    else:
+        eligible_candidates = available_articles.copy()
 
-        elif "Balanced" in algo_choice:
-            recommended_articles = compose_balanced_feed(
-                df=df,
-                user_profile=user_profile,
-                top_k=top_k_param,
-                personalized_ratio=0.70,
-                diversity_method="geographic",
-                preference_profile=user_pref_profile,
-                alpha=alpha_param,
-                lambda_param=lambda_param
-            )
-            algo_key = "balanced_feed"
+    if eligible_candidates.empty:
+        st.session_state["current_feed_slate"] = pd.DataFrame()
+        return
 
-        elif "Bridging" in algo_choice:
-            recommended_articles = recommend_interest_bridging(
-                df=df,
-                user_profile=user_profile,
-                top_k=top_k_param,
-                top_m_candidates=actual_m,
-                preference_profile=user_pref_profile,
-                alpha=alpha_param
-            )
-            algo_key = "interest_bridging"
+    # Route algorithm
+    if "Publisher" in algo_choice:
+        recommended = recommend_publisher_mmr(
+            candidates_df=eligible_candidates, top_k=top_k_param, lambda_param=lambda_param, preference_profile=user_pref_profile, alpha=alpha_param
+        )
+    elif "Geographic" in algo_choice:
+        recommended = recommend_geographic_mmr(
+            candidates_df=eligible_candidates, top_k=top_k_param, lambda_param=lambda_param, preference_profile=user_pref_profile, alpha=alpha_param
+        )
+    elif "Balanced" in algo_choice:
+        recommended = compose_balanced_feed(
+            df=available_articles, user_profile=user_profile, top_k=top_k_param, personalized_ratio=0.70, diversity_method="publisher", preference_profile=user_pref_profile, alpha=alpha_param, lambda_param=lambda_param
+        )
+    elif "Bridging" in algo_choice:
+        recommended = recommend_interest_bridging(
+            df=available_articles, user_profile=user_profile, top_k=top_k_param, preference_profile=user_pref_profile, alpha=alpha_param
+        )
+    else:
+        recommended = recommend_baseline(
+            df=available_articles, user_profile=user_profile, top_k=top_k_param, preference_profile=user_pref_profile, alpha=alpha_param
+        )
 
-        else:  # Baseline
-            recommended_articles = recommend_baseline(
-                df=df,
-                user_profile=user_profile,
-                top_k=top_k_param,
-                preference_profile=user_pref_profile,
-                alpha=alpha_param
-            )
-            algo_key = "baseline"
+    if not recommended.empty:
+        log_recommended_articles(active_user_id, recommended['article_id'].tolist())
 
-        # Log impressions for future contextual bandit analysis (Phase 8)
-        if not recommended_articles.empty:
-            feedback_mgr.log_impressions(
-                user_id=active_user_id,
-                algorithm=algo_key,
-                articles=recommended_articles.to_dict("records")
-            )
+    st.session_state["current_feed_slate"] = recommended
 
+# =====================================
+# GENERATE FEED BUTTON
+# =====================================
+if st.button("✨ Generate My Feed", type="primary"):
+    if not selected_topics:
+        st.warning("Please select at least one topic.")
+    else:
+        generate_new_slate()
+        st.success("Your personalized feed is ready!")
+        st.rerun()
+
+# =====================================
+# DISPLAY PERSONALIZED FEED SLATE
+# =====================================
+if st.session_state.get("feed_generated"):
+
+    st.markdown("### 📰 Your Daily Discoveries")
+
+    recommended_articles = st.session_state.get("current_feed_slate")
+
+    if recommended_articles is None or recommended_articles.empty:
+        st.info("No matching unseen articles found. Click 'Reset Feed History' to explore again.")
+    else:
         # Slate Diversity Insights
-        if show_insights and not recommended_articles.empty:
-            metrics = evaluate_slate(recommended_articles)
-            st.markdown(
-                f"""
-                <div style="background-color:#F1F5F9; border-radius:8px; padding:12px 18px; margin-bottom:20px; font-size:14px; color:#334155;">
-                    <strong>📊 Slate Diversity Insights:</strong> &nbsp;
-                    🌍 <strong>{metrics['unique_countries']}</strong> countries &nbsp;·&nbsp;
-                    🌐 <strong>{metrics['unique_continents']}</strong> continents &nbsp;·&nbsp;
-                    📰 <strong>{metrics['unique_publishers']}</strong> publishers &nbsp;·&nbsp;
-                    🎯 <strong>{metrics['avg_relevance']:.2f}</strong> avg relevance
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+        metrics = evaluate_slate(recommended_articles)
+        st.markdown(
+            f"""
+            <div style="background-color:#F1F5F9; border-radius:8px; padding:12px 18px; margin-bottom:20px; font-size:14px; color:#334155;">
+                <strong> Slate Diversity Insights:</strong> &nbsp;
+                 <strong>{metrics.get('unique_publishers', 0)}</strong> publishers &nbsp;·&nbsp;
+                 <strong>{metrics.get('unique_countries', 0)}</strong> countries &nbsp;·&nbsp;
+                 <strong>{metrics.get('unique_continents', 0)}</strong> continents
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-        # =====================================
-        # DISPLAY NEWS CARDS
-        # =====================================
+        saved_topics = list(st.session_state.get("user_profile", {}).keys())
 
+        # Render News Cards with Feedback
         for _, row in recommended_articles.iterrows():
-
-            matched_topics = [
-                topic
-                for topic in row["topic_list"]
-                if topic in saved_topics
-            ]
-
-            # Generate natural explanation
-            sim_geo_val = float(row.get("geo_redundancy", 0.0))
-            reason = generate_natural_explanation(
-                rank=int(row.get("selection_rank", 1)),
-                country=row.get("country"),
-                continent=row.get("continent"),
-                matched_topics=matched_topics,
-                sim_geo=sim_geo_val
-            )
-
-            # Check if feed lane or badge is assigned
-            feed_badge = row.get("feed_badge", "✦ CURATED FOR YOU")
+            art_id = str(row.get("article_id"))
+            reason = row.get("reason")
+            if not reason:
+                reason = f"Matches interest in {row.get('topic', 'General')} from {row.get('publisher', 'Publisher')}"
 
             article = {
-                "article_id": row.get("article_id"),
+                "article_id": art_id,
                 "title": row.get("title", "Untitled Article"),
                 "publisher": row.get("publisher", "Unknown Publisher"),
                 "country": row.get("country"),
                 "continent": row.get("continent"),
-                "topics": row.get("topic_list", []),
-                "url": row.get("article_url"),
+                "topics": row.get("topic_list", [row.get("topic")]),
+                "url": row.get("article_url", "#"),
                 "reason": reason,
-                "feed_badge": feed_badge
+                "feed_badge": row.get("feed_badge", "✦ CURATED FOR YOU")
             }
 
-            # Display card with interactive feedback
             display_news_card(
                 article=article,
                 user_id=active_user_id,
                 feedback_manager=feedback_mgr,
-                current_feedback=user_fb_map.get(str(article["article_id"]))
+                current_feedback=user_fb_map.get(art_id)
             )
+
+        # =====================================
+        # LOAD MORE DISCOVERIES & RESET
+        # =====================================
+        st.write("")
+        st.markdown("---")
+        col_load, col_reset = st.columns([2, 1])
+        with col_load:
+            if st.button("Load More Discoveries", type="primary", use_container_width=True):
+                generate_new_slate()
+                st.rerun()
+        with col_reset:
+            if st.button("Reset Feed History", type="secondary", use_container_width=True):
+                feedback_mgr.clear_user_feedback(active_user_id)
+                with get_connection() as conn:
+                    cursor = conn.cursor()
+                    cursor.execute("DELETE FROM recommendation_history WHERE user_id = ?", (active_user_id,))
+                    conn.commit()
+                st.session_state["feed_generated"] = False
+                st.session_state["current_feed_slate"] = None
+                st.success("History reset! Starting fresh.")
+                st.rerun()
+
+    # =====================================
+    # INTERACTION DRAWER: RATED ARTICLES
+    # =====================================
+    st.write("")
+    with st.expander("Your Session Activity", expanded=False):
+        all_fb = feedback_mgr.get_user_feedback(active_user_id)
+        if not all_fb:
+            st.caption("You haven't liked or disliked any articles in this session yet.")
+        else:
+            fb_ids = list(all_fb.keys())
+            rated_df = df[df['article_id'].astype(str).isin(fb_ids)]
+            
+            for _, r_row in rated_df.iterrows():
+                r_id = str(r_row['article_id'])
+                fb_type = all_fb.get(r_id)
+                badge_color = "#DCFCE7" if fb_type == "interested" else "#FEE2E2"
+                text_color = "#166534" if fb_type == "interested" else "#991B1B"
+                icon = "👍 Liked" if fb_type == "interested" else "👎 Disliked"
+                
+                st.markdown(
+                    f"""
+                    <div style="padding:10px 14px; border-radius:6px; background-color:#F8FAFC; margin-bottom:8px; border:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong>{r_row.get('title', 'Untitled')}</strong><br>
+                            <span style="font-size:12px; color:#64748B;">📰 {r_row.get('publisher', 'Unknown')} · {r_row.get('topic', 'General')}</span>
+                        </div>
+                        <span style="background-color:{badge_color}; color:{text_color}; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:700;">
+                            {icon}
+                        </span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
