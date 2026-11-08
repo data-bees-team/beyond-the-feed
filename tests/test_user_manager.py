@@ -67,6 +67,49 @@ class TestUserManager(unittest.TestCase):
         profile = self.mgr.get_user_profile(uid)
         self.assertEqual(profile["selected_topics"], new_topics)
 
+
+
+    def test_legacy_password_migration(self):
+        """Existing SHA-256 passwords should be upgraded after login."""
+        import hashlib
+        import sqlite3
+
+        ok, _, user = self.mgr.register_user(
+            "legacy_user", "oldpassword123", ["Technology"]
+        )
+        self.assertTrue(ok)
+
+        legacy_hash = hashlib.sha256(
+            "oldpassword123".encode("utf-8")
+        ).hexdigest()
+
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute(
+                "UPDATE users SET password_hash = ? WHERE user_id = ?",
+                (legacy_hash, user["user_id"]),
+            )
+
+        # Existing password should still work.
+        auth_ok, _, _ = self.mgr.authenticate_user(
+            "legacy_user", "oldpassword123"
+        )
+        self.assertTrue(auth_ok)
+
+        # Successful login should upgrade the stored password hash.
+        with sqlite3.connect(self.db_path) as conn:
+            stored_hash = conn.execute(
+                "SELECT password_hash FROM users WHERE user_id = ?",
+                (user["user_id"],),
+            ).fetchone()[0]
+
+        self.assertTrue(stored_hash.startswith("pbkdf2_sha256$"))
+
+        # The upgraded password should still authenticate.
+        auth_ok, _, _ = self.mgr.authenticate_user(
+            "legacy_user", "oldpassword123"
+        )
+        self.assertTrue(auth_ok)
+
     def test_exposure_history_and_deduplication(self):
         """Test recording recommendation exposure and retrieving exposed IDs."""
         uid = "user_exposure_test"

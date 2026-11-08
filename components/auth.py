@@ -1,39 +1,190 @@
-import streamlit as st
+
 import uuid
-from utils.db_manager import save_user_topics, init_db
+import streamlit as st
+
+from utils.user_manager import get_user_manager
+
+
+def _new_guest_id():
+    return f"guest_{uuid.uuid4().hex}"
+
+
+def _switch_user(user_id, username, topics=None, account_type="guest"):
+    """Switch users and clear user-specific Streamlit state."""
+
+    previous_id = st.session_state.get("user_id")
+    previous_type = st.session_state.get("account_type")
+
+    if previous_id != user_id or previous_type != account_type:
+        # Remove the previous user's personalized feed and cached state.
+        for key in list(st.session_state.keys()):
+            if key in {
+                "user_profile",
+                "feed_generated",
+                "current_feed_slate",
+                "current_feed",
+                "feed_articles",
+                "seen_article_ids",
+                "selected_topics",
+                "user_pref_profile",
+                "user_fb_map",
+            } or key.startswith(("feed_", "slate_", "recommendation_")):
+                del st.session_state[key]
+
+        st.session_state["user_id"] = user_id
+        st.session_state["username"] = username
+        st.session_state["account_type"] = account_type
+        st.session_state["authenticated"] = account_type == "registered"
+        st.session_state["user_profile"] = {
+            topic: 1.0 for topic in (topics or [])
+        }
+
 
 def render_sidebar_auth():
-    init_db()
-    
-    st.sidebar.markdown("### 👤 User Account & Profile")
-    
+    mgr = get_user_manager()
+
+    # Initialize a guest session.
     if "user_id" not in st.session_state:
-        st.session_state.user_id = str(uuid.uuid4())
-        st.session_state.username = "Guest User"
-    
-    auth_mode = st.sidebar.radio("Select Profile Mode:", ["Guest", "Demo Personas", "Custom Login"])
-    
-    if auth_mode == "Guest":
-        st.sidebar.info("Currently exploring as **Guest**")
-    
-    elif auth_mode == "Demo Personas":
-        persona = st.sidebar.selectbox("Load Pre-set Persona:", [
-            "Select Persona...",
-            "Persona A: The AI Specialist",
-            "Persona B: The Global Climate Reader"
-        ])
-        if persona == "Persona A: The AI Specialist":
-            st.session_state.user_id = "persona_ai_specialist"
-            st.session_state.username = "AI Specialist Persona"
-            st.sidebar.success("Loaded AI Specialist Persona")
-        elif persona == "Persona B: The Global Climate Reader":
-            st.session_state.user_id = "persona_climate_reader"
-            st.session_state.username = "Global Climate Reader"
-            st.sidebar.success("Loaded Climate Reader Persona")
+        _switch_user(_new_guest_id(), "Guest User")
+
+    if "account_type" not in st.session_state:
+        # Treat older sessions as guests until they authenticate again.
+        _switch_user(_new_guest_id(), "Guest User")
+
+    st.sidebar.markdown("### Your Account")
+
+    account_type = st.session_state["account_type"]
+
+    # -------------------------------
+    # AUTHENTICATED USER
+    # -------------------------------
+    if account_type == "registered":
+        username = st.session_state["username"]
+        greeting = st.session_state.pop("welcome_message", None)
+
+        if greeting is None:
+            greeting = f"Welcome, {username}! 👋"
+
+        st.sidebar.markdown(f"### {greeting}")
+        st.sidebar.caption("Your personalized news experience is ready.")
+
+        if st.sidebar.button("Log Out", use_container_width=True):
+            _switch_user(_new_guest_id(), "Guest User")
+            st.session_state.pop("auth_mode", None)
+            st.rerun()
+
+        return
+
+    # -------------------------------
+    # GUEST / DEMO / LOGIN / SIGNUP
+    # -------------------------------
+    mode = st.sidebar.radio(
+        "Account",
+        ["Guest", "Demo Personas", "Login", "Sign Up"],
+        key="auth_mode",
+    )
+
+    if mode == "Guest":
+        if account_type != "guest":
+            if st.sidebar.button("Continue as Guest"):
+                _switch_user(_new_guest_id(), "Guest User")
+                st.rerun()
+        else:
+            st.sidebar.caption("Browsing as Guest")
+
+    elif mode == "Demo Personas":
+        personas = [
+            p for p in mgr.get_demo_personas()
+            if p["user_id"] != "demo_guest"
+        ]
+
+        selected_name = st.sidebar.selectbox(
+            "Choose a demo reader",
+            [p["username"] for p in personas],
+        )
+
+        if st.sidebar.button("Load Demo Profile"):
+            persona = next(
+                p for p in personas
+                if p["username"] == selected_name
+            )
+
+            _switch_user(
+                persona["user_id"],
+                persona["username"],
+                persona["selected_topics"],
+                account_type="demo",
+            )
+            st.rerun()
+
+    elif mode == "Login":
+        with st.sidebar.form("login_form"):
+            username = st.text_input("Username")
+            password = st.text_input("Password", type="password")
+            submitted = st.form_submit_button("Log In")
+
+        if submitted:
+            ok, message, user = mgr.authenticate_user(
+                username, password
+            )
+
+            if ok:
+                _switch_user(
+                    user["user_id"],
+                    user["username"],
+                    user["selected_topics"],
+                    account_type=(
+                        "demo" if user["is_demo"] else "registered"
+                    ),
+                )
+                st.session_state["welcome_message"] = (
+                    f"Welcome back, {user['username']}! 👋"
+                )
+                st.rerun()
+            else:
+                st.sidebar.error(message)
+
+    elif mode == "Sign Up":
+        with st.sidebar.form("signup_form"):
+            username = st.text_input("Choose Username")
+            password = st.text_input(
+                "Choose Password", type="password"
+            )
+            confirm = st.text_input(
+                "Confirm Password", type="password"
+            )
+            submitted = st.form_submit_button("Create Account")
+
+        if submitted:
+            if password != confirm:
+                st.sidebar.error("Passwords do not match.")
             
-    elif auth_mode == "Custom Login":
-        custom_name = st.sidebar.text_input("Enter Username:", value="")
-        if st.sidebar.button("Log In / Register") and custom_name.strip():
-            st.session_state.user_id = f"user_{custom_name.strip().lower()}"
-            st.session_state.username = custom_name.strip()
-            st.sidebar.success(f"Welcome, {st.session_state.username}!")
+            else:
+                ok, message, user = mgr.register_user(
+                    username, password
+                )
+
+                if ok:
+                    _switch_user(
+                        user["user_id"],
+                        user["username"],
+                        user["selected_topics"],
+                        account_type="registered",
+                    )
+                    st.session_state["welcome_message"] = (
+                        f"Welcome to Beyond the Feed, {user['username']}! 🎉"
+                    )
+                    st.rerun()
+                else:
+                    st.sidebar.error(message)
+
+    st.sidebar.divider()
+    st.sidebar.caption(
+        f"Active profile: {st.session_state['username']}"
+    )
+
+    if account_type == "demo":
+        if st.sidebar.button("Exit Demo Profile"):
+            _switch_user(_new_guest_id(), "Guest User")
+            st.session_state["auth_mode"] = "Guest"
+            st.rerun()

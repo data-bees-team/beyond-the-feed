@@ -15,6 +15,7 @@ import sqlite3
 import hashlib
 import json
 import uuid
+import hmac
 
 
 def _get_utc_timestamp() -> str:
@@ -23,8 +24,47 @@ def _get_utc_timestamp() -> str:
 
 
 def _hash_password(password: str) -> str:
-    """Compute SHA-256 hash of a password string."""
-    return hashlib.sha256(password.encode("utf-8")).hexdigest()
+    """Hash a password securely using PBKDF2-HMAC-SHA256."""
+    import os
+
+    salt = os.urandom(16)
+    iterations = 600_000
+
+    derived_key = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode("utf-8"),
+        salt,
+        iterations,
+    )
+
+    return f"pbkdf2_sha256${iterations}${salt.hex()}${derived_key.hex()}"
+
+def _verify_password(password: str, stored_hash: str) -> bool:
+    """Verify PBKDF2 passwords and support legacy SHA-256 hashes."""
+
+    if stored_hash.startswith("pbkdf2_sha256$"):
+        try:
+            algorithm, iterations, salt_hex, hash_hex = stored_hash.split("$")
+
+            expected_hash = bytes.fromhex(hash_hex)
+
+            actual_hash = hashlib.pbkdf2_hmac(
+                "sha256",
+                password.encode("utf-8"),
+                bytes.fromhex(salt_hex),
+                int(iterations),
+            )
+
+            return hmac.compare_digest(actual_hash, expected_hash)
+
+        except (ValueError, TypeError):
+            return False
+
+
+    # Support existing accounts created with SHA-256.
+    legacy_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
+
+    return hmac.compare_digest(legacy_hash, stored_hash)
 
 
 # Pre-configured demo personas for judges and hackathon evaluations
@@ -249,9 +289,17 @@ class UserManager:
             if not row:
                 return False, "User not found.", None
 
-            pwd_hash = _hash_password(password)
-            if row["password_hash"] != pwd_hash:
+            stored_hash = row["password_hash"]
+
+            if not _verify_password(password, stored_hash):
                 return False, "Incorrect password.", None
+
+            # Upgrade legacy password hashes after successful login.
+            if not stored_hash.startswith("pbkdf2_sha256$"):
+                cursor.execute(
+                    "UPDATE users SET password_hash = ? WHERE user_id = ?",
+                    (_hash_password(password), row["user_id"]),
+                )
 
             now_ts = _get_utc_timestamp()
             cursor.execute("""

@@ -78,7 +78,7 @@ embeddings, embeddings_dict = load_article_embeddings(df)
 print(f"EMBEDDINGS LOADING: {time.perf_counter() - start:.2f}s")
 
 
-    
+
 
 # =====================================
 # LOAD CUSTOM CSS
@@ -205,18 +205,25 @@ def generate_new_slate():
     user_profile = {topic: 1.0 for topic in selected_topics}
     st.session_state["user_profile"] = user_profile
     st.session_state["feed_generated"] = True
-    save_user_topics(active_user_id, st.session_state.get("username", "Guest"), selected_topics)
-    
+    st.session_state["current_feed_owner_id"] = active_user_id
+    if st.session_state.get("account_type") == "registered":
+        user_mgr.update_user_topics(active_user_id, selected_topics)
+    else:
+        save_user_topics(
+            active_user_id,
+            st.session_state.get("username", "Guest"),
+            selected_topics
+        )
     # Dynamic NLP scoring
     user_vec = get_or_create_user_vector(active_user_id, embeddings_dict)
-    
+
     from utils.db_manager import get_user_feedback
 
     debug_feedback = feedback_mgr.get_user_feedback(active_user_id)
 
     print("DEBUG SAVED FEEDBACK:", list(debug_feedback.items())[:5])
     print("DEBUG FEEDBACK COUNT:", len(debug_feedback))
-    
+
     df['nlp_score'] = compute_nlp_content_scores(user_vec, embeddings)
 
     # Relevance scoring
@@ -249,14 +256,14 @@ def generate_new_slate():
         st.session_state["current_feed_slate"] = pd.DataFrame()
         return
 
-    
+
     # Route algorithm
     if "Hybrid" in algo_choice:
         description_embeddings = get_topic_description_embeddings()
 
         print("DEBUG USER ID:", active_user_id)
         print("DEBUG USER VECTOR NORM:", np.linalg.norm(user_vec))
-        
+
         hybrid_candidates = recommend_hybrid_feed(
             seen_ids= seen_ids,
             df=df,
@@ -268,8 +275,8 @@ def generate_new_slate():
             user_vector=user_vec,
         )
 
-        
-        
+
+
         recommended = hybrid_candidates
         print(
             "DEBUG RECOMMENDED TOPIC COUNTS:",
@@ -280,9 +287,9 @@ def generate_new_slate():
             "DEBUG AVG TOPICS PER ARTICLE:",
             round(recommended["topic_list"].apply(len).mean(), 2)
         )
-            
-        
-        
+
+
+
         print("\n===== HYBRID RECOMMENDATION DEBUG =====")
         print("Selected topics:", selected_topics)
 
@@ -436,6 +443,7 @@ if st.session_state.get("feed_generated"):
                     conn.commit()
                 st.session_state["feed_generated"] = False
                 st.session_state["current_feed_slate"] = None
+                st.session_state.pop("current_feed_owner_id", None)
                 st.success("History reset! Starting fresh.")
                 st.rerun()
 
@@ -450,14 +458,14 @@ if st.session_state.get("feed_generated"):
         else:
             fb_ids = list(all_fb.keys())
             rated_df = df[df['article_id'].astype(str).isin(fb_ids)]
-            
+
             for _, r_row in rated_df.iterrows():
                 r_id = str(r_row['article_id'])
                 fb_type = all_fb.get(r_id)
                 badge_color = "#DCFCE7" if fb_type == "interested" else "#FEE2E2"
                 text_color = "#166534" if fb_type == "interested" else "#991B1B"
                 icon = "👍 Liked" if fb_type == "interested" else "👎 Disliked"
-                
+
                 st.markdown(
                     f"""
                     <div style="padding:10px 14px; border-radius:6px; background-color:#F8FAFC; margin-bottom:8px; border:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center;">
@@ -472,5 +480,5 @@ if st.session_state.get("feed_generated"):
                     """,
                     unsafe_allow_html=True
                 )
-                
+
 print(f"TOTAL MY FEED SCRIPT TIME: {time.perf_counter() - page_start:.2f}s")
