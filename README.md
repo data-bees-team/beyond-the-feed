@@ -1,231 +1,249 @@
 # Beyond the Feed 🐝
 
-A Diversity-Aware News Recommendation System with Centralized User Feedback & Adaptive Personalization built for the **Behind the Feed Data Challenge 2026**.
+**A diversity-aware, feedback-responsive news recommendation system**  
+*Behind the Feed Data Challenge 2026 · Team Data Bees*
 
-*Beyond the Feed* reimagines algorithmic news delivery. Rather than trapping readers inside narrow geographic, publisher, and thematic echo chambers, it combines content-based topic relevance with **Geographic Diversity Re-Ranking (Maximal Marginal Relevance - MMR)**, **Publisher Diversification**, **Thematic Interest Bridging**, and **System-Wide Adaptive User Feedback Learning** to broaden international exposure while honoring personal reading preferences.
+Beyond the Feed helps readers explore a broader range of news **while staying connected to their selected interests**. The current Streamlit application combines topic matching, semantic similarity, user feedback, and diversity-aware reranking. It also lets readers inspect their own recommendation exposure and compare a topic-focused baseline against the hybrid feed.
 
----
+> **Scope of the claims:** Broader topic, country, or publisher coverage is measurable from article metadata; it is **not** by itself proof of greater viewpoint diversity, fairness, or improved user satisfaction.
 
-## 📌 Project Overview
+## 1. Problem and dataset
 
-Empirical analysis of our global news corpus ($N = 15,395$ articles, 185 sovereign nations, 6 continents) revealed significant supply concentration:
-- **54.3% of all articles** originate from just three countries: United States (27.5%), United Kingdom (16.1%), and India (10.7%).
-- **Africa** represents only **5.34%** of available inventory; **South America** represents just **1.12%**.
-- Conventional pure-relevance recommenders amplify this baseline skew into severe filter bubbles. For example, for a reader interested in *Health and Medicine*, the baseline recommendation slate draws **100% of its stories from North America and Europe**, with 0% representation from the Global South.
+Our Phase 1 analysis used **15,395 cleaned GDELT articles**, with coverage across **185 countries and 6 continents**. The corpus showed uneven representation:
 
-*Beyond the Feed* addresses this challenge through a centralized, multi-stage recommendation architecture that balances topical affinity, source diversification, geographic coverage, and persistent user interaction learning.
+- **54.3%** of articles came from the United States (27.5%), United Kingdom (16.1%), and India (10.7%) combined.
+- Africa represented **5.34%** of inventory; South America **1.12%**.
 
----
+These are **dataset-level findings**, not guarantees about what any individual user will see. They motivated our effort to make source and geographic concentration visible and to diversify the recommendation slate.
 
-## ⚙️ System Architecture
+## 2. Current application
 
-The recommendation and feedback pipeline operates as a unified, closed-loop architecture:
+| Page | Purpose |
+| --- | --- |
+| **My Feed** (`pages/1_My_Feed.py`) | Select interests, receive personalized recommendations, provide 👍/👎 feedback, and load additional articles. |
+| **Recommendation Insights** (`pages/2_Recommendation_Insights.py`) | Inspect selected interests, saved feedback, recommended-article history, topic mix, and geographic/publisher exposure. |
+| **Compare Recommenders** (`pages/3_Compare_Recommenders.py`) | Compare 10 topic-focused baseline articles against 10 hybrid recommendations for the **current user's** interests and previously recommended history. Includes a separate, labeled controlled-feedback demonstration. |
 
+The application also includes registration/login and user-specific profile, feedback, and recommendation-history handling. Account isolation should be validated in deployment testing.
+
+## 3. Active recommendation pipeline
+
+```text
+Selected interests + cleaned GDELT articles
+                    |
+         Topic-match scoring
+                    |
+   Topic-description semantic similarity
+                    |
+        Combined hybrid relevance
+                    |
+     Optional semantic feedback adjustment
+                    |
+  Candidate eligibility + headline deduplication
+                    |
+   Exclude previously recommended article IDs
+                    |
+     Top-300 relevance candidate shortlist
+                    |
+   Unified diversity-aware MMR reranking
+                    |
+          Top-10 news recommendations
+                    |
+      User feedback saved for future ranking
 ```
-                            User Feedbacks (👍 / 👎)
-                                       ↓
-                [Centralized Persistent Storage (SQLite WAL)]
-                         (utils/feedback_manager.py)
-                                       ↓
-                [Centralized User Preference Learning Engine]
-                         (recommender/user_preferences.py)
-                                       ↓
-                [Centralized Shared Personalization Layer]
-                     (recommender/personalization_engine.py)
-                                       ↓
-        ┌──────────────────────────────┼──────────────────────────────┐
-        ↓                              ↓                              ↓
-[Baseline Relevance]         [Geographic MMR]             [Publisher Diversity]
- (recommender/baseline.py)   (geographic_diversity.py)    (publisher_diversity.py)
-        │                              │                              │
-        └──────────────────────────────┼──────────────────────────────┘
-                                       ↓
-                         [Thematic Interest Bridging]
-                        (recommender/interest_bridging.py)
-                                       ↓
-                       [Unified Feed Composition Engine]
-                           (recommender/feed_composer.py)
-                         (70% Personalized / 30% Discovery)
-                                       ↓
-                         Delivered Slate (Top K = 10)
-                                       ↓
-                       Streamlit Interactive News Cards
-                         (components/news_card.py)
-```
 
----
+### 3.1 Topic-focused baseline
 
-## 🗄️ Database Architecture (SQLite)
+`recommender/baseline.py` calculates topic relevance using the **average interest weight across an article's valid topic labels**. Articles with both selected and unselected topics can be eligible, but may receive a lower average than articles containing only selected topics. The baseline shown on the comparison page does **not** receive the learned semantic feedback vector. Other legacy baseline interfaces may optionally use the shared preference profile.
 
-Persistent feedback storage is centralized in `data/feedback.db` (auto-excluded from Git):
+### 3.2 Hybrid topic and semantic relevance
 
-### 1. `user_feedback` Table
-Stores current user feedback per article with full metadata for fast profile derivation:
-- `feedback_id`: Integer primary key (auto-increment).
-- `user_id`: Unique user identifier (supports multi-user isolation).
-- `article_id`: Canonical GDELT article identifier.
-- `feedback_type`: `'interested'` (👍) or `'not_interested'` (👎).
-- `title`, `publisher`, `country`, `continent`, `topics`: Denormalized article metadata.
-- `created_at`, `updated_at`: ISO-8601 UTC timestamps.
-- **Constraints**: `UNIQUE(user_id, article_id)` ensures atomic updates and zero duplicates.
+The active implementation is in `recommender/hybrid_pipeline.py`, using helpers in `recommender/hybrid_retrieval.py`.
 
-### 2. `recommendation_impressions` Table
-Prepares the platform for future **Contextual Bandits / Reinforcement Learning**:
-- `impression_id`: Primary key.
-- `user_id`, `article_id`, `algorithm`: Context and arm identifiers.
-- `rank_position`: 1-based display rank in the slate.
-- `relevance_score`: Propensity / expected reward.
-- `timestamp`: UTC impression time.
+- **Topic match:** Uses the **maximum** selected-topic weight among an article's topic labels.
+- **Semantic match:** Compares article embeddings with embeddings of the user's selected topic descriptions, using cosine similarity.
+- **Hybrid score:** With the default `topic_weight=0.5`, combines topic and nonnegative semantic scores:
 
----
+  `hybrid_relevance = 0.5 × topic_match + 0.5 × max(description_similarity, 0)`
 
-## 📐 Mathematical Learning & Personalization Model
+- **Candidate eligibility:** Keeps articles with a positive selected-topic match **or** topic-description similarity of at least **0.65**.
+- **Duplicate/seen filtering:** Deduplicates headlines and excludes previously recommended article IDs where supplied.
 
-### 1. User Preference Learning (`recommender/user_preferences.py`)
-For any entity $x$ (topic, publisher, country, continent):
-1. **Recency Decay**: Interactions decay exponentially over time:
-   $$w_i = \exp(-\lambda_{\mathrm{decay}} \cdot \Delta t_i)$$
-   where $\lambda_{\mathrm{decay}} = 0.05$ (half-life $\approx 14$ days).
-2. **Weighted Interaction Evidence**:
-   $$C^+(x) = \sum_{i \in \text{Feedback}^+} w_i \cdot \text{credit}(x, a_i), \quad C^-(x) = \sum_{j \in \text{Feedback}^-} w_j \cdot \text{penalty}(x, a_j)$$
-   Multi-topic articles distribute credit equally: $\text{credit} = \frac{1}{|\text{valid\_topics}|}$.
-3. **Bayesian-Smoothed Polarity**:
-   $$\mathrm{Polarity}(x) = \frac{C^+(x) - C^-(x)}{C^+(x) + C^-(x) + k_{\mathrm{smooth}}} \in [-1.0, +1.0]$$
-   where $k_{\mathrm{smooth}} = 2.0$ prevents single negative ratings from eliminating a category.
-4. **Interaction Confidence**:
-   $$\mathrm{Conf}(x) = 1.0 - \exp\left(-\frac{C^+(x) + C^-(x)}{\tau}\right) \in [0.0, 1.0] \quad (\tau = 3.0)$$
-5. **Net Normalized Preference**:
-   $$\mathrm{Score}(x) = \mathrm{Polarity}(x) \cdot \mathrm{Conf}(x) \in [-1.0, +1.0]$$
-   $$\mathrm{Normalized}(x) = \frac{1.0 + \mathrm{Score}(x)}{2.0} \in [0.0, 1.0]$$
-   - $\mathrm{Normalized} = 0.5$: Neutral / cold start (zero bias).
-   - $\mathrm{Normalized} > 0.5$: Positive affinity.
-   - $\mathrm{Normalized} < 0.5$: Negative feedback dampening.
+The semantic threshold can admit articles without exact topic matches, but it does **not** guarantee that such articles will appear in the final top 10. Multi-topic articles can also expose readers to additional topics without requiring semantic-only retrieval.
 
-### 2. Multi-Dimensional Personalization Engine (`recommender/personalization_engine.py`)
-For candidate article $a$:
-$$\mathrm{UserPref}(a) = w_{\mathrm{topic}} \cdot \mathrm{TopicPref}(a) + w_{\mathrm{pub}} \cdot \mathrm{PubPref}(a) + w_{\mathrm{geo}} \cdot \mathrm{GeoPref}(a)$$
-Defaults: $w_{\mathrm{topic}} = 0.60, w_{\mathrm{pub}} = 0.25, w_{\mathrm{geo}} = 0.15$.
+### 3.3 Feedback-responsive ranking
 
-$$\Delta_{\mathrm{pref}}(a) = 2.0 \cdot \mathrm{UserPref}(a) - 1.0 \in [-1.0, +1.0]$$
-$$\mathrm{Rel}_{\mathrm{pers}}(a) = \mathrm{clip}\left(\mathrm{Rel}_{\mathrm{base}}(a) \cdot \left[1.0 + \alpha \cdot \Delta_{\mathrm{pref}}(a)\right], 0.0, 1.0\right)$$
-- If user has no feedback ($\mathrm{UserPref} = 0.5$), $\Delta_{\mathrm{pref}} = 0 \implies \mathrm{Rel}_{\mathrm{pers}} \equiv \mathrm{Rel}_{\mathrm{base}}$.
-- Original baseline relevance is **strictly preserved** in `baseline_relevance`.
+`recommender/nlp_profile.py` builds a semantic user vector from saved article feedback. The implementation weights liked article embeddings by **+0.3** and disliked article embeddings by **−0.2**. Candidate cosine similarity to this vector contributes to hybrid relevance:
 
----
+`adjusted_relevance = clip(hybrid_relevance + 0.15 × feedback_similarity, 0, 1)`
 
-## 🎯 Supported Recommendation Algorithms
+With no nonzero feedback vector, this adjustment is inactive. The mechanism updates **ranking scores**, not the underlying embedding model; it is not reinforcement learning or online model retraining.
 
-All recommendation engines consume the shared `UserPreferenceProfile`:
+### 3.4 Unified diversity-aware reranking
 
-1. **Baseline (`recommender/baseline.py`)**:
-   Pure topic relevance, optionally boosted by learned preferences with deterministic tie-breaking.
-2. **Geographic Diversity MMR (`recommender/geographic_diversity.py`)**:
-   Balances personalized relevance with continental and national diversity:
-   $$\mathrm{Score}(a, S) = \lambda \cdot \mathrm{Rel}_{\mathrm{pers}}(u, a) - (1 - \lambda) \cdot \mathrm{Sim}_{\mathrm{geo}}(a, S)$$
-3. **Publisher Diversity MMR (`recommender/publisher_diversity.py`)**:
-   Mitigates source concentration by penalizing repeated publishers and enforcing hard source caps (max 2 per slate).
-4. **Thematic Interest Bridging (`recommender/interest_bridging.py`)**:
-   Discovers adjacent perspectives by leveraging GDELT's 78.4% multi-topic tagging while honoring negative feedback filters.
-5. **Unified Feed Composer (`recommender/feed_composer.py`)**:
-   Orchestrates 70% Personalized core items + 30% Serendipitous Discovery items.
+`recommender/unified_reranker.py` applies Maximal Marginal Relevance (MMR) to a shortlist of up to **300** eligible candidates. Its redundancy measure combines:
 
----
+| Redundancy signal | Weight |
+| --- | ---: |
+| Semantic similarity to already selected articles | 0.50 |
+| Geographic redundancy | 0.30 |
+| Publisher redundancy | 0.20 |
 
-## 📊 Empirical Evaluation Benchmark
+The selection objective is:
 
-Benchmarked on the full cleaned GDELT dataset ($N = 15,395$) across three realistic user personas:
+`MMR(a) = λ × adjusted_relevance(a) − (1 − λ) × combined_redundancy(a, selected)`
 
-| Configuration | Baseline Rel | Pers. Rel | Pref. Alignment | Countries ($K=10$) | Continents | Publishers | Topics | Latency |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1. Original Baseline** | 1.000 | 1.000 | 0.525 | 5.3 | 3.3 | 8.7 | 2.0 | 10.0 ms |
-| **2. Geographic MMR ($\lambda=0.6$)** | 1.000 | 1.000 | 0.527 | **10.0** | **6.0** | 9.7 | 2.0 | 26.1 ms |
-| **3. Publisher Diversity ($\lambda=0.65$)** | 1.000 | 1.000 | 0.526 | 6.0 | 3.7 | **10.0** | 2.0 | 10.3 ms |
-| **4. Feedback-Enhanced Baseline** | 1.000 | 1.000 | 0.532 | 5.7 | 3.7 | 8.7 | 2.0 | 77.8 ms |
-| **5. Feedback-Enhanced Geo MMR** | 1.000 | 1.000 | 0.528 | **10.0** | **6.0** | 9.7 | 2.0 | 96.1 ms |
-| **6. Feedback-Enhanced Pub Diversity**| 1.000 | 1.000 | 0.533 | 6.7 | 4.0 | **10.0** | 2.0 | 81.0 ms |
-| **7. Combined Personalized + Discovery** | 0.900 | 0.908 | **0.537** | 7.7 | **6.0** | 9.7 | **3.7** | 248.7 ms |
+**My Feed uses `λ = 0.60`** in its current recommendation call. This is a relevance/diversity trade-off, **not a hard quota** for publishers, countries, or discovery articles. The final slate is normally **10 articles**, subject to candidate availability.
 
-*Simulated offline benchmark on modeled feedback interaction sessions.*
+## 4. Feedback, persistence, and user transparency
 
----
+- `utils/feedback_manager.py` handles saved 👍/👎 feedback and its supporting persistence.
+- `utils/user_manager.py` and authentication components manage user accounts and saved interests.
+- Recommendation history supports exclusion of previously recommended article IDs.
+- **Recommendation Insights** reports descriptive information about the user's own activity and exposure. Counts of topic labels on rated articles are **not** learned model weights.
+- **Compare Recommenders** generates a fixed, current-user comparison snapshot; its two slates are alternatives, not extra articles added to My Feed.
 
-## 🛡️ Anti-Filter-Bubble & Exploration Guarantees
+SQLite is used for application persistence. Local database files and credentials should remain excluded from Git. See `.gitignore` and the database utilities for the actual local paths and schema.
 
-1. **No Overreaction:** Laplace smoothing ($k_{\mathrm{smooth}} = 2.0$) ensures a single negative feedback dampens an entity by at most 9–14%, never eliminating an entire topic or publisher.
-2. **Cold Start Neutrality:** Unrated entities default to neutral ($0.5$), preventing unrated countries or topics from being penalized.
-3. **Discovery Guarantee:** In the Balanced Feed, 25–30% of the slate is explicitly reserved for adjacent themes and long-tail global sources.
+## 5. Evaluation
 
----
+### 5.1 Live baseline-versus-hybrid comparison
 
-## 📁 Repository Structure
+The Compare Recommenders page uses the same selected interests and previously recommended history for both algorithms. It reports topic-label composition and distinct topics, countries, and publishers in each **10-article** slate.
 
-```
+In one observed demonstration with **Conflict and Security** and **Environment and Climate** selected:
+
+| Metric (10 recommendations) | Topic baseline | Hybrid |
+| --- | ---: | ---: |
+| Distinct topic labels | 2 | 9 |
+| Distinct countries | 4 | 10 |
+| Distinct publishers | 9 | 10 |
+| Articles containing selected **and** additional topics | 0 | 10 |
+
+**Interpretation:** This snapshot illustrates broader metadata coverage while retaining selected-topic connections. It is **one example**, not an average across users, a controlled component ablation, or proof of higher recommendation quality.
+
+### 5.2 Controlled feedback-responsiveness experiments
+
+The existing `evaluation/evaluate_feedback_adaptation.py` experiment compares cold-start and synthetic-feedback rankings using the same article dataset, selected interest, and initial eligibility conditions. Feedback is simulated from articles in the initial slate; it does **not** modify real users' feedback.
+
+| Selected topic | Initial top-10 articles retained | Replaced after simulated feedback |
+| --- | ---: | ---: |
+| Technology | 3 | 7 |
+| Health | 6 | 4 |
+| Politics and Government | 5 | 5 |
+
+In all three runs, the simulated disliked article moved out of the top 10; the simulated liked article remained at rank 1. **These tests show ranking responsiveness, not that the replacement articles are objectively more relevant or preferred by users.**
+
+### 5.3 Earlier component benchmarks (historical)
+
+Before the current hybrid pipeline, the team evaluated separate topic-baseline, geographic-MMR, publisher-diversity, feedback-enhanced, and combined personalized/discovery configurations. The earlier benchmark used three simulated personas on the cleaned GDELT corpus.
+
+| Earlier configuration | Mean countries (K=10) | Mean continents | Mean publishers | Mean topics |
+| --- | ---: | ---: | ---: | ---: |
+| Original baseline | 5.3 | 3.3 | 8.7 | 2.0 |
+| Geographic MMR | 10.0 | 6.0 | 9.7 | 2.0 |
+| Publisher diversity | 6.0 | 3.7 | 10.0 | 2.0 |
+| Feedback-enhanced baseline | 5.7 | 3.7 | 8.7 | 2.0 |
+| Feedback-enhanced geographic MMR | 10.0 | 6.0 | 9.7 | 2.0 |
+| Feedback-enhanced publisher diversity | 6.7 | 4.0 | 10.0 | 2.0 |
+| Combined personalized + discovery | 7.7 | 6.0 | 9.7 | 3.7 |
+
+These figures are retained from the **earlier offline evaluation**. They are **not** results for the active `hybrid_pipeline.py` and must not be used to claim a current 70/30 split or a guaranteed 25–30% discovery allocation.
+
+## 6. How the system evolved
+
+The team's initial architecture developed and evaluated several complementary components:
+
+- `recommender/geographic_diversity.py` — geographic diversity scoring and MMR.
+- `recommender/publisher_diversity.py` — publisher diversity scoring.
+- `recommender/interest_bridging.py` — thematic connections through multi-topic articles.
+- `recommender/user_preferences.py` and `recommender/personalization_engine.py` — feedback-derived entity preferences and personalized relevance.
+- `recommender/feed_composer.py` — an earlier combined personalized/discovery strategy, including a **70/30 design**.
+
+The **current My Feed path** uses `hybrid_pipeline.py`, `nlp_profile.py`, and `unified_reranker.py`. The unified reranker reuses geographic and publisher redundancy logic. The earlier components and benchmarks remain valuable project contributions, but they should not be confused with the active feed-composition policy.
+
+## 7. Repository guide
+
+```text
 beyond-the-feed/
-├── Home.py                             # Streamlit application landing page
+├── Home.py
 ├── pages/
-│   └── 1_My_Feed.py                    # Interactive feed, feedback controls & dashboard
+│   ├── 1_My_Feed.py
+│   ├── 2_Recommendation_Insights.py
+│   └── 3_Compare_Recommenders.py
 ├── components/
-│   └── news_card.py                    # Article card with 👍 / 👎 buttons & status badges
-├── utils/
-│   ├── data_loader.py                  # Cached GDELT loader with topic parser
-│   └── feedback_manager.py             # SQLite thread-safe feedback & impression store
+│   ├── auth.py
+│   └── news_card.py
 ├── recommender/
-│   ├── __init__.py                     # Package interface
-│   ├── baseline.py                     # Baseline candidate scoring & recommendation
-│   ├── geographic_diversity.py         # Geographic MMR re-ranking engine
-│   ├── publisher_diversity.py          # Publisher diversity MMR & source capping
-│   ├── interest_bridging.py            # Multi-topic thematic bridging engine
-│   ├── feed_composer.py                # 70/30 personalized + discovery feed composer
-│   ├── user_preferences.py             # Preference profile learning from feedback
-│   └── personalization_engine.py       # Centralized adaptive relevance scoring
-├── tests/
-│   ├── test_geographic_diversity.py    # Geographic MMR unit & regression tests
-│   └── test_feedback_personalization.py # Comprehensive feedback & personalization test suite
+│   ├── baseline.py
+│   ├── hybrid_pipeline.py
+│   ├── hybrid_retrieval.py
+│   ├── nlp_profile.py
+│   ├── unified_reranker.py
+│   ├── geographic_diversity.py
+│   ├── publisher_diversity.py
+│   ├── interest_bridging.py
+│   ├── user_preferences.py
+│   ├── personalization_engine.py
+│   └── feed_composer.py
+├── utils/
+│   ├── data_loader.py
+│   ├── semantic_loader.py
+│   ├── feedback_manager.py
+│   ├── db_manager.py
+│   └── user_manager.py
 ├── evaluation/
-│   └── evaluate_feedback_system.py     # Comparative 7-configuration benchmark script
-├── reports/
-│   ├── geographic_diversity/           # Empirical MMR charts & reports
-│   └── feedback_personalization/       # CSV benchmark outputs
+│   └── evaluate_feedback_adaptation.py
+├── tests/
+├── data/                       # Local dataset and supporting assets
+├── reports/                    # Evaluation outputs (as available)
 ├── styles/
-│   └── style.css                       # Application CSS styles
-├── requirements.txt                    # Runtime dependencies
-└── README.md                           # Technical documentation
+│   └── style.css
+├── requirements.txt
+└── README.md
 ```
 
----
+The listing highlights the relevant modules rather than every repository file. Some data, embedding assets, and generated reports may be ignored by Git or require separate preparation.
 
-## 🚀 Installation & Local Setup
+## 8. Local setup
 
-### 1. Prerequisites
-- Python 3.10+ (tested on Python 3.12–3.14)
-- Git
+**Requirements:** Python 3.10+ recommended, Git, and the data/embedding assets expected by the loaders.
 
-### 2. Setup Environment
 ```bash
+# Clone and enter the project
 git clone https://github.com/data-bees-team/beyond-the-feed.git
 cd beyond-the-feed
 
-# Create and activate virtual environment
+# Create and activate a virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
 
 # Install dependencies
-pip install -r requirements.txt
-```
+python -m pip install -r requirements.txt
 
-### 3. Run Automated Tests
-```bash
-# Run all 35 tests (feedback, preferences, MMR, publisher diversity, feed composer)
-python -m unittest discover -s tests -v
-```
+# Run tests
+python -m pytest tests/ -q
 
-### 4. Launch Streamlit Web Application
-```bash
+# Start the application
 streamlit run Home.py
 ```
-Open [http://localhost:8501](http://localhost:8501) in your browser.
 
----
+Open `http://localhost:8501`. If data or embedding files are not included in the repository, supply the required assets in the locations expected by `utils/data_loader.py` and `utils/semantic_loader.py` before launching. The application should be validated again in its deployment environment, including account separation and persistent storage behavior.
 
-## 👥 Team & Acknowledgments
-Built by **Data Bees** for the *Behind the Feed Data Challenge 2026*.
+For a controlled feedback test, from the project root:
+
+```bash
+python evaluation/evaluate_feedback_adaptation.py --topics Technology
+```
+
+## 9. Limitations and next steps
+
+- Topic, country, and publisher labels are **proxies for exposure**, not direct measures of ideological viewpoint or fairness.
+- A slate of 10 has an upper bound of 10 distinct countries or publishers; ceiling effects matter when comparing diversity.
+- The hybrid system balances relevance and redundancy but **does not guarantee** particular regional, publisher, or cross-topic quotas.
+- Synthetic feedback tests demonstrate **responsiveness**, not measured user satisfaction or causal attribution of every ranking change.
+- Before final deployment, validate multi-account isolation, database persistence, required embedding assets, and the complete feedback → Load More → Insights → Comparison journey.
+
+## 10. Team and acknowledgments
+
+Built by **Data Bees** for the **Behind the Feed Data Challenge 2026**. The project integrates the team's original geographic-diversity, publisher-diversity, thematic-bridging, feedback-personalization, and evaluation work with the current hybrid semantic recommendation and user-facing comparison experience.
