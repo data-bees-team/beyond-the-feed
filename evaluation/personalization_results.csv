@@ -1,0 +1,4 @@
+scenario,mean_similarity_to_feedback,mean_hybrid_relevance,unique_countries,unique_publishers,overlap_with_original
+No Feedback,0.5494041442871094,0.8383751571178436,10,10,10
+Liked,0.5718169212341309,0.9273120358586311,10,10,7
+Disliked,0.5038301348686218,0.754473714157939,10,10,6

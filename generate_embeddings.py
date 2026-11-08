@@ -12,16 +12,16 @@ try:
     print("Loading SentenceTransformer model BAAI/bge-base-en-v1.5...")
     from sentence_transformers import SentenceTransformer
     
-    model = SentenceTransformer("BAAI/bge-base-en-v1.5")
+    model = SentenceTransformer("BAAI/bge-base-en-v1.5", device= "cpu")
     titles = df["title"].fillna("").tolist()
     
     print(f"Generating embeddings for {len(titles)} articles...")
     embeddings = model.encode(titles, show_progress_bar=True)
 
 except Exception as e:
-    print(f"SentenceTransformer not installed or failed ({e}).")
-    print("Creating fallback embeddings array...")
-    embeddings = np.zeros((len(df), 768))
+    raise RuntimeError(
+        f"Embedding generation failed: {e}"
+    ) from e
 
 # Save array to data/article_embeddings.npy
 npy_path = os.path.join("data", "article_embeddings.npy")

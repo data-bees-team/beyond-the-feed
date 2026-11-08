@@ -5,6 +5,20 @@ import os
 import streamlit as st
 import pandas as pd
 import numpy as np
+from sentence_transformers import SentenceTransformer
+from recommender.topic_descriptions import TOPIC_DESCRIPTIONS
+from recommender.hybrid_pipeline import recommend_hybrid_feed
+import streamlit.components.v1 as components
+import time
+
+
+from utils.semantic_loader import (
+    load_article_embeddings,
+    get_topic_description_embeddings,
+)
+
+page_start = time.perf_counter()
+
 
 # =====================================
 # PROJECT PATH & MODULE IMPORTS
@@ -48,25 +62,23 @@ init_db()
 # =====================================
 # LOAD DATA & EMBEDDINGS
 # =====================================
+start = time.perf_counter()
+
 df = load_articles()
+print(f"DATA LOADING: {time.perf_counter() - start:.2f}s")
+
 feedback_mgr = get_feedback_manager()
 user_mgr = get_user_manager()
 
-@st.cache_data
-def load_article_embeddings(df_data):
-    emb_path = os.path.join("data", "article_embeddings.npy")
-    if os.path.exists(emb_path):
-        embeddings = np.load(emb_path)
-    else:
-        embeddings = np.zeros((len(df_data), 768))
-        
-    embeddings_dict = {
-        str(row['article_id'] if 'article_id' in row else idx): embeddings[idx] 
-        for idx, row in df_data.iterrows()
-    }
-    return embeddings, embeddings_dict
+
+start = time.perf_counter()
 
 embeddings, embeddings_dict = load_article_embeddings(df)
+
+print(f"EMBEDDINGS LOADING: {time.perf_counter() - start:.2f}s")
+
+
+    
 
 # =====================================
 # LOAD CUSTOM CSS
@@ -154,7 +166,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-algo_choice = st.session_state.get("algo_choice", "🌐 Balanced Feed (Personalized + Discovery)")
+algo_choice = "Hybrid"
 top_k_param = st.session_state.get("top_k_param", 10)
 lambda_param = st.session_state.get("lambda_param", 0.60)
 alpha_param = st.session_state.get("alpha_param", 0.35)
@@ -180,7 +192,11 @@ topics_list = [
 selected_topics = st.multiselect(
     "What topics are you interested in?",
     options=topics_list,
-    default=["Technology"] if "user_profile" not in st.session_state or not st.session_state["user_profile"] else list(st.session_state["user_profile"].keys()),
+    default=[
+        topic
+        for topic in st.session_state.get("user_profile") or {}
+        if topic in topics_list
+    ],
     placeholder="Choose your interests..."
 )
 
@@ -193,6 +209,14 @@ def generate_new_slate():
     
     # Dynamic NLP scoring
     user_vec = get_or_create_user_vector(active_user_id, embeddings_dict)
+    
+    from utils.db_manager import get_user_feedback
+
+    debug_feedback = feedback_mgr.get_user_feedback(active_user_id)
+
+    print("DEBUG SAVED FEEDBACK:", list(debug_feedback.items())[:5])
+    print("DEBUG FEEDBACK COUNT:", len(debug_feedback))
+    
     df['nlp_score'] = compute_nlp_content_scores(user_vec, embeddings)
 
     # Relevance scoring
@@ -225,8 +249,61 @@ def generate_new_slate():
         st.session_state["current_feed_slate"] = pd.DataFrame()
         return
 
+    
     # Route algorithm
-    if "Publisher" in algo_choice:
+    if "Hybrid" in algo_choice:
+        description_embeddings = get_topic_description_embeddings()
+
+        print("DEBUG USER ID:", active_user_id)
+        print("DEBUG USER VECTOR NORM:", np.linalg.norm(user_vec))
+        
+        hybrid_candidates = recommend_hybrid_feed(
+            seen_ids= seen_ids,
+            df=df,
+            embeddings=embeddings,
+            user_profile=user_profile,
+            topic_description_embeddings=description_embeddings,
+            top_k=top_k_param,
+            lambda_param=lambda_param,
+            user_vector=user_vec,
+        )
+
+        
+        
+        recommended = hybrid_candidates
+        print(
+            "DEBUG RECOMMENDED TOPIC COUNTS:",
+            recommended["topic_list"].apply(len).tolist()
+        )
+
+        print(
+            "DEBUG AVG TOPICS PER ARTICLE:",
+            round(recommended["topic_list"].apply(len).mean(), 2)
+        )
+            
+        
+        
+        print("\n===== HYBRID RECOMMENDATION DEBUG =====")
+        print("Selected topics:", selected_topics)
+
+        debug_cols = [
+            "title",
+            "topic",
+            "hybrid_topic_score",
+            "description_semantic_score",
+            "feedback_score",
+            "hybrid_relevance",
+        ]
+
+        print(
+            recommended[
+                [col for col in debug_cols if col in recommended.columns]
+            ].to_string(index=False)
+        )
+
+        print("=======================================\n")
+
+    elif "Publisher" in algo_choice:
         recommended = recommend_publisher_mmr(
             candidates_df=eligible_candidates, top_k=top_k_param, lambda_param=lambda_param, preference_profile=user_pref_profile, alpha=alpha_param
         )
@@ -269,6 +346,28 @@ if st.button("✨ Generate My Feed", type="primary"):
 if st.session_state.get("feed_generated"):
 
     st.markdown("### 📰 Your Daily Discoveries")
+
+    if st.session_state.pop("scroll_to_feed", False):
+        components.html(
+            """
+            <script>
+                const doc = window.parent.document;
+                const headings = [...doc.querySelectorAll("h3")];
+
+                const target = headings.find(
+                    h => h.textContent.includes("Your Daily Discoveries")
+                );
+
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+            </script>
+            """,
+            height=0,
+        )
 
     recommended_articles = st.session_state.get("current_feed_slate")
 
@@ -326,6 +425,7 @@ if st.session_state.get("feed_generated"):
         with col_load:
             if st.button("Load More Discoveries", type="primary", use_container_width=True):
                 generate_new_slate()
+                st.session_state["scroll_to_feed"] = True
                 st.rerun()
         with col_reset:
             if st.button("Reset Feed History", type="secondary", use_container_width=True):
@@ -372,3 +472,5 @@ if st.session_state.get("feed_generated"):
                     """,
                     unsafe_allow_html=True
                 )
+                
+print(f"TOTAL MY FEED SCRIPT TIME: {time.perf_counter() - page_start:.2f}s")

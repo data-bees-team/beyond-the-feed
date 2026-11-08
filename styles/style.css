@@ -337,3 +337,138 @@ footer {
     margin: 8px 0 0;
     line-height: 1.6;
 }
+
+/* ===== HOMEPAGE EDITORIAL ARTICLES ===== */
+
+.homepage-featured-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(30px, 3vw, 42px);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -1px;
+    color: #172033;
+    margin: 16px 0;
+}
+
+.news-card .news-topics {
+    margin-bottom: 14px;
+}
+
+.news-card .news-meta {
+    margin-top: 12px;
+}
+
+/* ===== HOMEPAGE CARD REFINEMENT ===== */
+
+.homepage-featured-title {
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.25;
+    margin: 12px 0;
+}
+
+.news-card {
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: none;
+}
+
+.news-card:hover {
+    transform: none;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+}
+
+.news-card .news-topics {
+    margin-bottom: 10px;
+}
+
+.news-card .news-meta {
+    margin-bottom: 0;
+}
+
+.topic-tag {
+    padding: 5px 10px;
+    font-size: 11px;
+}
+
+/* ===== HOMEPAGE ARTICLE CARDS ONLY ===== */
+
+.homepage-article-card {
+    background: #FAF9F6;
+    border: 1px solid #E5E2DA;
+    border-radius: 16px;
+    padding: 28px 30px;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    transition: border-color 0.2s ease;
+}
+
+.homepage-article-card:hover {
+    border-color: #0D9488;
+}
+
+.homepage-article-card .news-title {
+    font-size: 24px;
+    line-height: 1.3;
+    margin: 14px 0;
+}
+
+.homepage-article-card .homepage-featured-title {
+    font-size: clamp(30px, 3vw, 38px);
+    line-height: 1.25;
+    margin: 14px 0;
+}
+
+.homepage-article-card .news-meta {
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.homepage-article-card .news-topics {
+    margin-bottom: 12px;
+}
+
+/* ===== PROFESSIONAL SIDEBAR ===== */
+
+section[data-testid="stSidebar"] {
+    background: #F5F3EE;
+    border-right: 1px solid #E5E2DA;
+}
+
+section[data-testid="stSidebar"] > div {
+    padding-top: 20px;
+}
+
+/* Navigation links */
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a {
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 4px 0;
+    transition: background 0.2s ease;
+}
+
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a:hover {
+    background: #E8EEE9;
+}
+
+/* Selected navigation page */
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] a[aria-current="page"] {
+    background: #DDF3EC;
+    color: #0F766E;
+    font-weight: 700;
+}
+
+/* Sidebar section headings */
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 {
+    color: #172033;
+    font-family: 'Playfair Display', Georgia, serif !important;
+}
+
+/* Sidebar separators */
+section[data-testid="stSidebar"] hr {
+    border-color: #E5E2DA;
+}
+/* Capitalize sidebar page names */
+[data-testid="stSidebarNav"] a {
+    text-transform: capitalize !important;
+}

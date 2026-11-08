@@ -61,11 +61,17 @@ def get_user_analytics_data(user_id):
         history_ids = [str(row["article_id"]) for row in rows]
         
         # Get feedback counts
-        cursor.execute("SELECT feedback_type FROM feedback WHERE user_id = ?", (user_id,))
-        fb_rows = cursor.fetchall()
-        fb_likes = sum(1 for r in fb_rows if r["feedback_type"] == "interested")
-        fb_dislikes = sum(1 for r in fb_rows if r["feedback_type"] == "not_interested")
+        user_feedback = feedback_mgr.get_user_feedback(user_id)
 
+        fb_likes = sum(
+            1 for feedback_type in user_feedback.values()
+            if feedback_type == "interested"
+        )
+
+        fb_dislikes = sum(
+            1 for feedback_type in user_feedback.values()
+            if feedback_type == "not_interested"
+        )
     if not history_ids:
         # Fallback/Default metrics for Cold-Start demo state
         return {

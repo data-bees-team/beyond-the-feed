@@ -1,24 +1,26 @@
 import numpy as np
 import pandas as pd
-from utils.db_manager import get_user_feedback
+from utils.feedback_manager import get_feedback_manager
 
 def get_or_create_user_vector(user_id: str, embeddings_dict: dict, embedding_dim: int = 768) -> np.ndarray:
     """
     Computes user profile vector based on stored Interested / Not Interested feedback.
     Returns zero vector if user has no feedback yet (cold start).
     """
-    user_feedback = get_user_feedback(user_id)
+    feedback_mgr = get_feedback_manager()
+    user_feedback = feedback_mgr.get_user_feedback(user_id)
+    
     if not user_feedback:
         return np.zeros(embedding_dim)
     
     user_vec = np.zeros(embedding_dim)
     
-    for entry in user_feedback:
-        art_id = entry["article_id"]
-        f_type = entry["feedback_type"]
-        
+    for art_id, f_type in user_feedback.items():
+        art_id = str(art_id)
+
         if art_id in embeddings_dict:
             art_vec = embeddings_dict[art_id]
+
             if f_type == "interested":
                 user_vec += 0.3 * art_vec
             elif f_type == "not_interested":

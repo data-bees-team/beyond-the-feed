@@ -1,0 +1,6 @@
+profile,eligible_cross_topic,cross_topic_in_top_300,cross_topic_in_final_10,mean_cross_topic_semantic_score
+Technology,2,0,0,
+Health,0,0,0,
+Politics,1,0,0,
+Environment,3,0,0,
+Technology + Science,2,0,0,
