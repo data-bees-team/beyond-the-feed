@@ -1,0 +1,13 @@
+scenario,feedback_weight,retained_from_baseline,new_articles,changed_ranks_among_retained,liked_rank,disliked_rank,mean_similarity_to_liked,mean_similarity_to_disliked,countries,continents,publishers
+like_only,0.0,10,0,0,1,2.0,0.5338,0.513,10,6,10
+like_only,0.05,10,0,2,1,2.0,0.5338,0.513,10,6,10
+like_only,0.1,8,2,5,1,2.0,0.5386,0.5041,10,6,10
+like_only,0.15,7,3,3,1,2.0,0.545,0.5096,10,6,10
+dislike_only,0.0,10,0,0,1,2.0,0.5338,0.513,10,6,10
+dislike_only,0.05,6,4,1,1,2.0,0.5392,0.5097,10,6,10
+dislike_only,0.1,5,5,1,1,,0.5127,0.4564,10,6,10
+dislike_only,0.15,5,5,2,1,,0.5008,0.4481,10,6,10
+like_and_dislike,0.0,10,0,0,1,2.0,0.5338,0.513,10,6,10
+like_and_dislike,0.05,10,0,2,1,2.0,0.5338,0.513,10,6,10
+like_and_dislike,0.1,7,3,6,1,,0.5605,0.4831,10,6,10
+like_and_dislike,0.15,6,4,4,1,4.0,0.5444,0.5009,10,6,10

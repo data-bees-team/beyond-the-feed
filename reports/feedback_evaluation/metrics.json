@@ -1,0 +1,40 @@
+{
+  "experiment": "synthetic feedback responsiveness; not user-study relevance improvement",
+  "selected_topics": [
+    "Technology",
+    "Health"
+  ],
+  "top_k": 10,
+  "lambda_param": 0.6,
+  "feedback": {
+    "liked_article_id": "20260922120000-27",
+    "disliked_article_id": "20261013120000-300"
+  },
+  "same_candidate_pool": true,
+  "seen_ids_excluded": false,
+  "overlap_count": 6,
+  "changed_membership_count": 8,
+  "changed_rank_count_among_common": 4,
+  "liked_rank_before": 1,
+  "liked_rank_after": 1,
+  "disliked_rank_before": 2,
+  "disliked_rank_after": 4,
+  "before": {
+    "article_count": 10,
+    "unique_publishers": 10,
+    "unique_countrys": 10,
+    "unique_continents": 6,
+    "selected_topics_only": 1,
+    "selected_and_other_topics": 9,
+    "no_exact_topic_match": 0
+  },
+  "after": {
+    "article_count": 10,
+    "unique_publishers": 10,
+    "unique_countrys": 10,
+    "unique_continents": 6,
+    "selected_topics_only": 1,
+    "selected_and_other_topics": 9,
+    "no_exact_topic_match": 0
+  }
+}

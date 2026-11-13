@@ -1,0 +1,121 @@
+scenario,feedback_weight,rank,article_id,title,baseline_rank
+like_only,0.0,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_only,0.0,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,2.0
+like_only,0.0,3,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+like_only,0.0,4,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,4.0
+like_only,0.0,5,20260719120000-303,"Clever hacker fits 537,000 domains in a tiny $5 ESP32 ad-blocking dongle — firmware uses only around 50KB of RAM and can answer blocked lookups in 10 milliseconds",5.0
+like_only,0.0,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+like_only,0.0,7,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,7.0
+like_only,0.0,8,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+like_only,0.0,9,20260828120000-38,"'Cyber is for people who enjoy figuring things out, it never stands still'",9.0
+like_only,0.0,10,20261002120000-1028,Nvidia and Micron Can't Make AI Chips Without This Growth Stock. Here's Why It Could Soar.,10.0
+like_only,0.05,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_only,0.05,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,2.0
+like_only,0.05,3,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+like_only,0.05,4,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,4.0
+like_only,0.05,5,20260917120000-1054,From Information to Action: MEXC Upgrades AI Across the Trading Journey,
+like_only,0.05,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+like_only,0.05,7,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+like_only,0.05,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,7.0
+like_only,0.05,9,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,
+like_only,0.05,10,20260922120000-1018,"SEALSQ, WISeKey, Jura to establish post-quantum semiconductor center",
+like_only,0.1,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_only,0.1,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,2.0
+like_only,0.1,3,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+like_only,0.1,4,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,4.0
+like_only,0.1,5,20260917120000-1054,From Information to Action: MEXC Upgrades AI Across the Trading Journey,
+like_only,0.1,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+like_only,0.1,7,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+like_only,0.1,8,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,
+like_only,0.1,9,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,
+like_only,0.1,10,20260927120000-649,"The Internet, Generative AI and the Changing Architecture of the Mind",
+like_only,0.15,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_only,0.15,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,2.0
+like_only,0.15,3,20261007120000-1031,AI Versus Everything Else,
+like_only,0.15,4,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+like_only,0.15,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+like_only,0.15,6,20261013120000-622,Digital Innovation and Energy Security: Solar Power To Boost Digital Innovation,
+like_only,0.15,7,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+like_only,0.15,8,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,
+like_only,0.15,9,20260714120000-648,Microchip Advances Neural Network Implementation with VectorBlox™ 3.0 Accelerator SDK,
+like_only,0.15,10,20260818120000-166,Humanoid War Robots Could Soon Patrol US Southern Border To Combat Weaponized Migrant Flows,
+dislike_only,0.0,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+dislike_only,0.0,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,2.0
+dislike_only,0.0,3,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+dislike_only,0.0,4,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,4.0
+dislike_only,0.0,5,20260719120000-303,"Clever hacker fits 537,000 domains in a tiny $5 ESP32 ad-blocking dongle — firmware uses only around 50KB of RAM and can answer blocked lookups in 10 milliseconds",5.0
+dislike_only,0.0,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+dislike_only,0.0,7,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,7.0
+dislike_only,0.0,8,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+dislike_only,0.0,9,20260828120000-38,"'Cyber is for people who enjoy figuring things out, it never stands still'",9.0
+dislike_only,0.0,10,20261002120000-1028,Nvidia and Micron Can't Make AI Chips Without This Growth Stock. Here's Why It Could Soar.,10.0
+dislike_only,0.05,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+dislike_only,0.05,2,20260828120000-806,From Iran to South Asia: When Cyber War Meets Nuclear Risk,
+dislike_only,0.05,3,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,
+dislike_only,0.05,4,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+dislike_only,0.05,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+dislike_only,0.05,6,20260813120000-155,CFPs: Innovative Solutions for the Sustainable Development of the Blue Economy in Cameroon,
+dislike_only,0.05,7,20261002120000-1028,Nvidia and Micron Can't Make AI Chips Without This Growth Stock. Here's Why It Could Soar.,10.0
+dislike_only,0.05,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,7.0
+dislike_only,0.05,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+dislike_only,0.05,10,20260818120000-1168,Dimitra Simeonidou: Embedding AI into telecom networks,
+dislike_only,0.1,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+dislike_only,0.1,2,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+dislike_only,0.1,3,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,
+dislike_only,0.1,4,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+dislike_only,0.1,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+dislike_only,0.1,6,20260813120000-885,Green Schools Program: Strengthening Waste Management and Climate Resilience (Guinea),
+dislike_only,0.1,7,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,7.0
+dislike_only,0.1,8,20261002120000-1028,Nvidia and Micron Can't Make AI Chips Without This Growth Stock. Here's Why It Could Soar.,10.0
+dislike_only,0.1,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+dislike_only,0.1,10,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,
+dislike_only,0.15,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+dislike_only,0.15,2,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+dislike_only,0.15,3,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,
+dislike_only,0.15,4,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+dislike_only,0.15,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+dislike_only,0.15,6,20260813120000-885,Green Schools Program: Strengthening Waste Management and Climate Resilience (Guinea),
+dislike_only,0.15,7,20260729120000-897,"Encore Global Management LP Invests $2.14 Million in Advanced Micro Devices, Inc. $AMD",
+dislike_only,0.15,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,7.0
+dislike_only,0.15,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+dislike_only,0.15,10,20260902120000-301,Roomba's latest robot vacuums want to do almost everything for you,
+like_and_dislike,0.0,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_and_dislike,0.0,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,2.0
+like_and_dislike,0.0,3,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+like_and_dislike,0.0,4,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,4.0
+like_and_dislike,0.0,5,20260719120000-303,"Clever hacker fits 537,000 domains in a tiny $5 ESP32 ad-blocking dongle — firmware uses only around 50KB of RAM and can answer blocked lookups in 10 milliseconds",5.0
+like_and_dislike,0.0,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+like_and_dislike,0.0,7,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,7.0
+like_and_dislike,0.0,8,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+like_and_dislike,0.0,9,20260828120000-38,"'Cyber is for people who enjoy figuring things out, it never stands still'",9.0
+like_and_dislike,0.0,10,20261002120000-1028,Nvidia and Micron Can't Make AI Chips Without This Growth Stock. Here's Why It Could Soar.,10.0
+like_and_dislike,0.05,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_and_dislike,0.05,2,20260828120000-806,From Iran to South Asia: When Cyber War Meets Nuclear Risk,
+like_and_dislike,0.05,3,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,
+like_and_dislike,0.05,4,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,6.0
+like_and_dislike,0.05,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+like_and_dislike,0.05,6,20260813120000-155,CFPs: Innovative Solutions for the Sustainable Development of the Blue Economy in Cameroon,
+like_and_dislike,0.05,7,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+like_and_dislike,0.05,8,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,
+like_and_dislike,0.05,9,20260818120000-1168,Dimitra Simeonidou: Embedding AI into telecom networks,
+like_and_dislike,0.05,10,20260729120000-897,"Encore Global Management LP Invests $2.14 Million in Advanced Micro Devices, Inc. $AMD",
+like_and_dislike,0.1,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_and_dislike,0.1,2,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,
+like_and_dislike,0.1,3,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+like_and_dislike,0.1,4,20260729120000-576,AI and events technology: Where to next?,
+like_and_dislike,0.1,5,20260917120000-1054,From Information to Action: MEXC Upgrades AI Across the Trading Journey,
+like_and_dislike,0.1,6,20261002120000-858,Cyber Operators Are Deployed in Place. The Pentagon Should Treat Them That Way,
+like_and_dislike,0.1,7,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+like_and_dislike,0.1,8,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,
+like_and_dislike,0.1,9,20260902120000-301,Roomba's latest robot vacuums want to do almost everything for you,
+like_and_dislike,0.1,10,20260719120000-384,3 Stocks I'm Buying After Taiwan Semiconductor's Stellar Announcement,
+like_and_dislike,0.15,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_and_dislike,0.15,2,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,
+like_and_dislike,0.15,3,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,3.0
+like_and_dislike,0.15,4,20260729120000-576,AI and events technology: Where to next?,
+like_and_dislike,0.15,5,20260917120000-1054,From Information to Action: MEXC Upgrades AI Across the Trading Journey,
+like_and_dislike,0.15,6,20261002120000-858,Cyber Operators Are Deployed in Place. The Pentagon Should Treat Them That Way,
+like_and_dislike,0.15,7,20260719120000-229,Hardware is not so hard - Chip Weinberger,8.0
+like_and_dislike,0.15,8,20260902120000-301,Roomba's latest robot vacuums want to do almost everything for you,
+like_and_dislike,0.15,9,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,
+like_and_dislike,0.15,10,20260719120000-384,3 Stocks I'm Buying After Taiwan Semiconductor's Stellar Announcement,

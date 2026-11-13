@@ -1,0 +1,61 @@
+profile,variant,rank,article_id,title,country,publisher,hybrid_relevance
+Technology,Full hybrid,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology,Full hybrid,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology,Full hybrid,3,20261007120000-1031,AI Versus Everything Else,United States,slguardian.org,0.8516257405281067
+Technology,Full hybrid,4,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology,Full hybrid,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",Australia,thelawyermag.com,0.8111774921417236
+Technology,Full hybrid,6,20261013120000-622,Digital Innovation and Energy Security: Solar Power To Boost Digital Innovation,Cameroon,cameroon-tribune.cm,0.8220353722572327
+Technology,Full hybrid,7,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology,Full hybrid,8,20260719120000-229,Hardware is not so hard - Chip Weinberger,China,chipweinberger.com,0.8390797078609467
+Technology,Full hybrid,9,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,United Kingdom,business-standard.com,0.8571296334266663
+Technology,Full hybrid,10,20260714120000-648,Microchip Advances Neural Network Implementation with VectorBlox™ 3.0 Accelerator SDK,Philippines,manilatimes.net,0.8195508122444153
+Technology,Without geographic MMR,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology,Without geographic MMR,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology,Without geographic MMR,3,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,India,webindia123.com,0.8537846505641937
+Technology,Without geographic MMR,4,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology,Without geographic MMR,5,20260719120000-229,Hardware is not so hard - Chip Weinberger,China,chipweinberger.com,0.8390797078609467
+Technology,Without geographic MMR,6,20260818120000-1168,Dimitra Simeonidou: Embedding AI into telecom networks,United Kingdom,telecomtv.com,0.8476797342300415
+Technology,Without geographic MMR,7,20260813120000-323,3 Semiconductor Stocks to Buy Before the Next AI Earnings Wave in August,China,247wallst.com,0.8268473148345947
+Technology,Without geographic MMR,8,20260907120000-70,RF GaN patenting activity slowing as technology matures,United States,semiconductor-today.com,0.8257708847522736
+Technology,Without geographic MMR,9,20260828120000-806,From Iran to South Asia: When Cyber War Meets Nuclear Risk,United States,countercurrents.org,0.8565678000450134
+Technology,Without geographic MMR,10,20260803120000-427,The covenant of trust: Insurance industry as custodians of money ethics and sanctity of privacy,India,barandbench.com,0.8420370221138
+Health,Full hybrid,1,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Health,Full hybrid,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Health,Full hybrid,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Health,Full hybrid,4,20260818120000-60,Health notes,United States,vindy.com,0.8446941077709198
+Health,Full hybrid,5,20260907120000-402,Push for path to appeal computer-determined health care,Australia,bluemountainsgazette.com.au,0.828255832195282
+Health,Full hybrid,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,Brazil,medscape.com,0.8101556897163391
+Health,Full hybrid,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Health,Full hybrid,8,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,Sudan,prnewswire.com,0.8296618759632111
+Health,Full hybrid,9,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,China,thailand-business-news.com,0.8246321380138397
+Health,Full hybrid,10,20260818120000-701,"Major change to Romania's health insurance contribution proposed again: romanians could redirect part of their contributions to private insurers. Cristina Prună: ""We pay for healthcare twice""",Romania,mediafax.ro,0.8125535845756531
+Health,Without geographic MMR,1,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Health,Without geographic MMR,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Health,Without geographic MMR,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Health,Without geographic MMR,4,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Health,Without geographic MMR,5,20260818120000-60,Health notes,United States,vindy.com,0.8446941077709198
+Health,Without geographic MMR,6,20260719120000-567,"Blue Cross, Michigan Medicine contract fight: What patients should know",United States,bitacora.com.uy,0.8289572298526764
+Health,Without geographic MMR,7,20260714120000-436,Psychology Today New York,United States,unitaid.eu,0.8315716981887817
+Health,Without geographic MMR,8,20260818120000-955,Making healthcare efficient in N.Y.,United States,nydailynews.com,0.8370026051998138
+Health,Without geographic MMR,9,20260902120000-1001,Mental Health A&E Visits Soar Among Children as Young as Six as Experts Question Rise in Diagnoses - NATIONAL NEWS,United Kingdom,redditchstandard.co.uk,0.7984557747840881
+Health,Without geographic MMR,10,20260813120000-705,"Black Book Research: Military Health IT Enters Its Post-EHR Era as AI, Readiness and Battlefield Care Drive the Next Federal Technology Wave",United States,finanznachrichten.de,0.8268410563468933
+Technology + Health,Full hybrid,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology + Health,Full hybrid,2,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Technology + Health,Full hybrid,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology + Health,Full hybrid,4,20261007120000-1031,AI Versus Everything Else,United States,slguardian.org,0.8516257405281067
+Technology + Health,Full hybrid,5,20260907120000-402,Push for path to appeal computer-determined health care,Australia,bluemountainsgazette.com.au,0.828255832195282
+Technology + Health,Full hybrid,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology + Health,Full hybrid,7,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Technology + Health,Full hybrid,8,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology + Health,Full hybrid,9,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Technology + Health,Full hybrid,10,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Technology + Health,Without geographic MMR,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology + Health,Without geographic MMR,2,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Technology + Health,Without geographic MMR,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology + Health,Without geographic MMR,4,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,India,webindia123.com,0.8537846505641937
+Technology + Health,Without geographic MMR,5,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Technology + Health,Without geographic MMR,6,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology + Health,Without geographic MMR,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Technology + Health,Without geographic MMR,8,20260719120000-229,Hardware is not so hard - Chip Weinberger,China,chipweinberger.com,0.8390797078609467
+Technology + Health,Without geographic MMR,9,20260818120000-60,Health notes,United States,vindy.com,0.8446941077709198
+Technology + Health,Without geographic MMR,10,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465

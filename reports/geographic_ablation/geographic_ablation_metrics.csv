@@ -1,0 +1,7 @@
+profile,variant,lambda,articles,mean_hybrid_relevance,semantic_diversity,countries,publishers
+Technology,Full hybrid,0.7,10,0.8400400876998901,0.4702364002738987,10,10
+Technology,Without geographic MMR,0.7,10,0.848178818821907,0.474186653331754,6,10
+Health,Full hybrid,0.7,10,0.8297478020191192,0.4707081814695584,10,10
+Health,Without geographic MMR,0.7,10,0.8315047264099121,0.4917387298218858,5,10
+Technology + Health,Full hybrid,0.7,10,0.8427208483219146,0.5507010860986822,10,10
+Technology + Health,Without geographic MMR,0.7,10,0.8475104331970215,0.5388123449403774,9,10

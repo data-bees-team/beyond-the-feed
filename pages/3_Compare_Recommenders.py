@@ -1,4 +1,3 @@
-"""Stable, current-user comparison of topic-only and personalized hybrid news feeds."""
 import json
 from collections import Counter
 
@@ -16,9 +15,12 @@ from utils.feedback_manager import get_feedback_manager
 from utils.semantic_loader import load_article_embeddings, get_topic_description_embeddings
 from utils.user_manager import get_user_manager
 
-st.set_page_config(page_title="See the Difference | Beyond the Feed", layout="wide")
-st.title("Same interests. A different view of the news.")
-st.caption("Compare two sets of 10 recommendations for your own interests. This page does not add articles to My Feed or mark them as seen.")
+try:
+    st.set_page_config(page_title="See the Difference | Beyond the Feed", layout="wide")
+except Exception:
+    pass
+st.title("Beyond the Feed | Evaluation")
+st.caption("Your selected interests · Topic baseline vs. Beyond the Feed")
 
 
 def topics_of(value):
@@ -74,6 +76,7 @@ def describe(frame, selected):
         "topics": len(all_topics), "countries": len(countries),
         "publishers": len(publishers), "continents": len(continents),
         "new_topics": sorted(all_topics - chosen),
+        "publisher_list": sorted(publishers),
     }
 
 
@@ -99,14 +102,41 @@ def render_slate(info):
         tags = ", ".join(item["topics"][:3]) or "Unlabeled"
         if len(item["topics"]) > 3:
             tags += " …"
-        st.markdown(f"**{idx:02d}. {names[item['group']]}** · {tags}")
+        pub = item.get("publisher", "Unknown")
+        country = item.get("country", "")
+        geo = f" ({country})" if country and country != "Unknown country" else ""
+        title = item.get("title", "Untitled")
+        if len(title) > 60:
+            title = title[:57] + "..."
+        st.markdown(f"**{idx:02d}. {title}**\n📰 *{pub}*{geo} · `{names[item['group']]}` · {tags}")
 
 
-def coverage_metric(label, base, hybrid, denominator=10):
+def coverage_metric(label, base, hybrid, denominator=10, extra_note=None, novel_count=None):
     diff = hybrid - base
     note = "same" if diff == 0 else f"{abs(diff)} {'more' if diff > 0 else 'fewer'}"
-    st.metric(label, f"{base} → {hybrid}", help=f"Baseline to Beyond the Feed; {note} distinct {label.lower()}.")
-    if diff == 0 and base >= denominator:
+
+    if novel_count is not None:
+        shared_count = hybrid - novel_count
+        st.metric(
+            label,
+            f"{base} → {hybrid}",
+            delta=f"{novel_count} new / {shared_count} shared",
+            delta_color="off",
+            help=f"Baseline to Beyond the Feed; {novel_count} of {hybrid} {label.lower()} were not in the baseline.",
+        )
+    else:
+        st.metric(label, f"{base} → {hybrid}", help=f"Baseline to Beyond the Feed; {note} distinct {label.lower()}.")
+
+    if extra_note:
+        st.caption(extra_note)
+    elif novel_count is not None and diff == 0 and base >= denominator:
+        if novel_count == 0:
+            st.caption(f"Both reach {denominator}/{denominator} with the exact same {label.lower()}.")
+        else:
+            st.caption(f"Both hit {denominator}/{denominator}, but **{novel_count} of {hybrid}** are different {label.lower()}.")
+    elif novel_count is not None and diff == 0:
+        st.caption(f"Same count ({base}), with **{novel_count} new** {label.lower()} in Beyond the Feed.")
+    elif diff == 0 and base >= denominator:
         st.caption("Both reach the maximum possible in this 10-article sample.")
     elif diff == 0:
         st.caption("No difference in this sample.")
@@ -134,7 +164,11 @@ if not selected:
     st.info("Choose your interests and generate My Feed first, then return here.")
     st.stop()
 
-signature = (str(user_id), account_type, tuple(sorted(selected)), 10, "comparison-v5")
+# Include saved article-level feedback in the snapshot key so stale comparisons
+# are never presented as results for the user's latest ratings.
+feedback_now = get_feedback_manager().get_user_feedback(user_id) or {}
+feedback_signature = tuple(sorted((str(k), str(v)) for k, v in feedback_now.items()))
+signature = (str(user_id), account_type, tuple(sorted(selected)), feedback_signature, 10, "comparison-v9-personal")
 existing = st.session_state.get("comparison_snapshot")
 if existing and existing.get("signature") != signature:
     st.info("Your interests or account changed. Generate a new comparison to use the latest selection.")
@@ -195,118 +229,68 @@ if not snapshot or snapshot["signature"] != signature:
     st.stop()
 
 base, hybrid = snapshot["baseline"], snapshot["hybrid"]
-st.caption(
-    f"Fixed snapshot · {base['total']} baseline recommendations and {hybrid['total']} hybrid recommendations "
-    f"· {snapshot['seen_count']} previously recommended article IDs excluded where supported"
-)
+base_pubs = set(base.get("publisher_list", []))
+hybrid_pubs = set(hybrid.get("publisher_list", []))
+novel_pubs = hybrid_pubs - base_pubs
 
-st.subheader("1. What changes in the recommendations?")
-a, b = st.columns(2, gap="large")
-with a:
-    with st.container(border=True):
-        st.markdown("### Topic-focused baseline")
-        st.caption("Ranks by selected topic labels. Does not use your learned semantic feedback vector.")
-        render_mix(base)
-with b:
-    with st.container(border=True):
-        st.markdown("### Beyond the Feed")
-        st.caption("Combines interest matching, semantic relevance, and diversity-aware selection; can use your learned feedback vector.")
-        render_mix(hybrid)
-
-st.caption("**Why multi-topic articles can rank differently:** the baseline averages your interest weights across an article's valid topic labels; the hybrid uses the strongest selected-topic match and combines it with semantic similarity. Both can recommend multi-topic articles.")
-
-st.subheader("2. What additional ground is covered?")
+st.markdown("### Your feed at a glance")
+st.caption("Current account · baseline → hybrid · two independently generated top-10 feeds")
 a, b, c = st.columns(3)
-with a:
-    coverage_metric("Topics", base["topics"], hybrid["topics"])
-with b:
-    coverage_metric("Countries", base["countries"], hybrid["countries"])
+a.metric("Topics covered", f"{base['topics']} → {hybrid['topics']}")
+b.metric("Countries covered", f"{base['countries']} → {hybrid['countries']}")
 with c:
-    coverage_metric("Publishers", base["publishers"], hybrid["publishers"])
+    st.metric("Publishers covered", f"{base['publishers']} → {hybrid['publishers']}",
+              help="Distinct publishers in each top-10 feed; this is not a measure of viewpoint diversity.")
+    st.caption(f"**{len(novel_pubs)} new sources · {len(hybrid_pubs & base_pubs)} shared** with baseline")
 
-new_topics = hybrid["new_topics"]
-if new_topics:
-    st.markdown("**Additional topics represented in Beyond the Feed:** " + ", ".join(new_topics))
-else:
-    st.caption("No additional topic labels in this particular hybrid slate.")
+live_tab, evidence_tab = st.tabs(["① Your comparison", "② Why your feeds differ"])
 
-coverage = pd.DataFrame([
-    {"Measure": label, "Topic baseline": base[key], "Beyond the Feed": hybrid[key]}
-    for label, key in (("Topics", "topics"), ("Countries", "countries"), ("Publishers", "publishers"))
-])
-fig = px.bar(
-    coverage.melt(id_vars="Measure", var_name="Recommender", value_name="Distinct labels"),
-    x="Measure", y="Distinct labels", color="Recommender", barmode="group",
-    color_discrete_map={"Topic baseline": "#64748B", "Beyond the Feed": "#0D9488"},
-)
-fig.update_layout(height=290, margin=dict(l=5, r=5, t=10, b=5), legend=dict(orientation="h", y=-0.22))
-st.plotly_chart(fig, use_container_width=True)
-st.caption("Descriptive coverage in two 10-article slates. Publishers and countries cannot exceed 10 here; equal counts may reflect this ceiling, not identical selections or viewpoints.")
-
-st.subheader("3. What makes Beyond the Feed different?")
-a, b, c = st.columns(3)
-with a:
-    with st.container(border=True):
-        st.markdown("**Semantic matching**")
-        st.caption("Uses article and topic-description embeddings to recognize related content beyond exact labels. This can affect ranking even when every selected article has a matching topic label.")
-with b:
-    with st.container(border=True):
-        st.markdown("**Diversity-aware selection**")
-        st.caption("Balances relevance and redundancy when assembling the hybrid slate. Coverage numbers above show the observed result, not a guaranteed improvement.")
-with c:
-    with st.container(border=True):
-        st.markdown("**Adaptive personalization**")
-        st.caption(f"Saved feedback: {snapshot['feedback_count']} article ratings. " + (
-            "A nonzero user vector was supplied to the hybrid recommender."
-            if snapshot["learned_vector"] else
-            "No nonzero learned vector was available for this snapshot."
-        ))
-
-semantic_mean = snapshot.get("semantic_mean")
-if semantic_mean is not None and np.isfinite(semantic_mean):
-    st.caption(
-        f"**Observed semantic signal:** mean article-to-selected-topic-description cosine similarity "
-        f"in this hybrid slate: {semantic_mean:.3f} "
-        f"(range {snapshot['semantic_min']:.3f}–{snapshot['semantic_max']:.3f}). "
-        "This is a similarity measure, not independently judged relevance or a causal contribution estimate."
-    )
-
-st.subheader("4. Does feedback change recommendations? (controlled simulation)")
-st.caption("Three previously run fixed-candidate-pool tests: one simulated like on the initial #1 article and one dislike on the initial #2 article per topic. These are not the current user's results.")
-feedback_results = pd.DataFrame([
-    {"Topic": "Technology", "Replaced": 7, "Retained": 3, "Disliked left top 10": "Yes"},
-    {"Topic": "Health", "Replaced": 4, "Retained": 6, "Disliked left top 10": "Yes"},
-    {"Topic": "Politics and Government", "Replaced": 5, "Retained": 5, "Disliked left top 10": "Yes"},
-])
-feedback_long = feedback_results.melt(id_vars="Topic", value_vars=["Replaced", "Retained"], var_name="Outcome", value_name="Articles")
-fig = px.bar(feedback_long, x="Topic", y="Articles", color="Outcome", barmode="stack",
-             color_discrete_map={"Replaced": "#0D9488", "Retained": "#94A3B8"})
-fig.update_layout(height=310, margin=dict(l=5, r=5, t=10, b=5), yaxis=dict(range=[0, 10]), legend=dict(orientation="h", y=-0.25))
-st.plotly_chart(fig, use_container_width=True)
-st.caption("Replaced articles: Technology 7/10, Health 4/10, Politics 5/10. The disliked article left the top 10 in all three tests; unique publisher, country, and continent counts stayed unchanged. This demonstrates responsiveness in these scenarios, not improved user satisfaction or general performance.")
-
-st.subheader("5. See all 10 selections without opening articles")
-st.caption("Each line is one recommendation. The two columns are alternative feeds, not 20 articles added to your personal feed.")
-with st.expander("Show the two 10-article lists", expanded=False):
+with live_tab:
+    st.markdown("#### How do the two feeds differ?")
     a, b = st.columns(2, gap="large")
     with a:
-        st.markdown("**Topic-focused baseline · 10 slots**")
-        render_slate(base)
+        with st.container(border=True):
+            st.markdown("**Topic-only baseline**")
+            render_mix(base)
     with b:
-        st.markdown("**Beyond the Feed · 10 slots**")
-        render_slate(hybrid)
+        with st.container(border=True):
+            st.markdown("**Beyond the Feed · hybrid**")
+            render_mix(hybrid)
+    st.caption("Baseline averages topic matches; hybrid combines topic and semantic relevance with feedback (when available) and diversity-aware reranking. This snapshot does not isolate individual component effects.")
+    with st.expander("View the actual top-10 headlines for both systems"):
+        a, b = st.columns(2, gap="large")
+        with a:
+            st.markdown("**Topic-only baseline**")
+            render_slate(base)
+        with b:
+            st.markdown("**Beyond the Feed**")
+            render_slate(hybrid)
 
-connected = hybrid["counts"]["connected"]
-matched = hybrid["counts"]["only"] + connected
-st.info(
-    f"In this comparison, {matched} of {hybrid['total']} Beyond the Feed recommendations "
-    f"include at least one of your selected topic labels; {connected} also include additional topics. "
-    "Semantic relevance can contribute even when there are no articles without an exact topic match."
-)
-st.caption(
-    "Counts are based on dataset topic and publisher labels, which may be imperfect. "
-    "The baseline uses topic ranking; the hybrid uses its own scoring and selection method. "
-    "Both are compared using the same interests and previously recommended article history. "
-    "This is a demonstration of the two strategies, not a controlled causal evaluation of each component. "
-    "Refresh the comparison after new feedback or feed activity to capture those changes."
-)
+with evidence_tab:
+    st.markdown("#### How your selected interests appear in both feeds")
+    st.caption("Current-user results only · " + ", ".join(snapshot["selected"]))
+    st.caption("Based on your two generated top-10 feeds; this is not an isolated test of individual algorithms.")
+
+    st.markdown("**Selected-topic coverage in your current comparison**")
+    comparison = pd.DataFrame([
+        {"Feed": "Topic baseline", "Only selected": base["counts"]["only"], "Selected + other": base["counts"]["connected"], "No exact match": base["counts"]["outside"]},
+        {"Feed": "Hybrid", "Only selected": hybrid["counts"]["only"], "Selected + other": hybrid["counts"]["connected"], "No exact match": hybrid["counts"]["outside"]},
+    ])
+    chart = px.bar(comparison.melt(id_vars="Feed", var_name="Topic match", value_name="Articles"),
+                   x="Feed", y="Articles", color="Topic match", barmode="stack",
+                   color_discrete_map={"Only selected": "#0D9488", "Selected + other": "#3B82F6", "No exact match": "#94A3B8"})
+    chart.update_layout(height=300, margin=dict(l=5, r=5, t=10, b=5),
+                        yaxis=dict(range=[0, 10]), legend=dict(orientation="h", y=-0.24))
+    st.plotly_chart(chart, use_container_width=True)
+    st.caption("A mixed-topic article still matches your interests when it includes at least one selected topic.")
+
+    st.markdown("**Feedback in this comparison**")
+    if snapshot["feedback_count"]:
+        st.write(f"{snapshot['feedback_count']} rated articles; learned feedback vector "
+                 + ("active." if snapshot["learned_vector"] else "inactive."))
+        st.caption("Ratings influence article-level personalization; this snapshot alone cannot measure how much each rating changed the ranking. Selected interests are not replaced by dislikes.")
+    else:
+        st.write("No article ratings yet. This comparison uses your selected interests without learned feedback.")
+
+
+st.caption("These are top-10 comparison snapshots, not your saved My Feed. Refresh after changing interests or feedback.")

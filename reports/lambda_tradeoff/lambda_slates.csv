@@ -1,0 +1,181 @@
+profile,lambda,rank,article_id,title,country,publisher,hybrid_relevance
+Technology,0.3,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology,0.3,2,20260803120000-90,Data breaches: What to do if you fall victim to a cyberattack,Australia,smh.com.au,0.8072675466537476
+Technology,0.3,3,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology,0.3,4,20260907120000-258,Belgian-Chinese man to face trial over suspected semiconductor espionage,China,the-messenger.com,0.7728289365768433
+Technology,0.3,5,20260902120000-931,VIDEO: Idahoans Face an Existential Threat from AI,United States,kool965.com,0.7745834290981293
+Technology,0.3,6,20260907120000-166,OmniBSIC Bank: Redefining Relationship Banking in Ghana,Ghana,internationalbanker.com,0.7960787415504456
+Technology,0.3,7,20260729120000-897,"Encore Global Management LP Invests $2.14 Million in Advanced Micro Devices, Inc. $AMD","Korea, Republic of",themarketsdaily.com,0.7878476977348328
+Technology,0.3,8,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,India,webindia123.com,0.8537846505641937
+Technology,0.3,9,20260803120000-547,Member privacy notice,Singapore,icaew.com,0.7713212668895721
+Technology,0.3,10,20260917120000-59,"Microsoft, CPX expand 'She Protects' with second cohort at GISEC Global 2026",United Arab Emirates,africaleader.com,0.7755396068096161
+Technology,0.5,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology,0.5,2,20260828120000-806,From Iran to South Asia: When Cyber War Meets Nuclear Risk,United States,countercurrents.org,0.8565678000450134
+Technology,0.5,3,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,India,webindia123.com,0.8537846505641937
+Technology,0.5,4,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology,0.5,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",Australia,thelawyermag.com,0.8111774921417236
+Technology,0.5,6,20260813120000-155,CFPs: Innovative Solutions for the Sustainable Development of the Blue Economy in Cameroon,Cameroon,fundsforngos.org,0.8035668134689331
+Technology,0.5,7,20260729120000-897,"Encore Global Management LP Invests $2.14 Million in Advanced Micro Devices, Inc. $AMD","Korea, Republic of",themarketsdaily.com,0.7878476977348328
+Technology,0.5,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,Malaysia,manilatimes.net,0.8346033692359924
+Technology,0.5,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,China,chipweinberger.com,0.8390797078609467
+Technology,0.5,10,20260818120000-1168,Dimitra Simeonidou: Embedding AI into telecom networks,United Kingdom,telecomtv.com,0.8476797342300415
+Technology,0.6,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology,0.6,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology,0.6,3,20261013120000-18,Contributor: Data centers consume like cities. They should contribute like cities as well,United States,latimes.com,0.8222362399101257
+Technology,0.6,4,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,Australia,bozemandailychronicle.com,0.8420840501785278
+Technology,0.6,5,20260719120000-303,"Clever hacker fits 537,000 domains in a tiny $5 ESP32 ad-blocking dongle — firmware uses only around 50KB of RAM and can answer blocked lookups in 10 milliseconds",Egypt,tomshardware.com,0.7925464510917664
+Technology,0.6,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology,0.6,7,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,Malaysia,manilatimes.net,0.8346033692359924
+Technology,0.6,8,20260719120000-229,Hardware is not so hard - Chip Weinberger,China,chipweinberger.com,0.8390797078609467
+Technology,0.6,9,20260828120000-38,"'Cyber is for people who enjoy figuring things out, it never stands still'",Ireland,siliconrepublic.com,0.8050902485847473
+Technology,0.6,10,20261002120000-1028,Nvidia and Micron Can't Make AI Chips Without This Growth Stock. Here's Why It Could Soar.,"Taiwan, Province of China",aol.com,0.8226955533027649
+Technology,0.7,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology,0.7,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology,0.7,3,20261007120000-1031,AI Versus Everything Else,United States,slguardian.org,0.8516257405281067
+Technology,0.7,4,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology,0.7,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",Australia,thelawyermag.com,0.8111774921417236
+Technology,0.7,6,20261013120000-622,Digital Innovation and Energy Security: Solar Power To Boost Digital Innovation,Cameroon,cameroon-tribune.cm,0.8220353722572327
+Technology,0.7,7,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology,0.7,8,20260719120000-229,Hardware is not so hard - Chip Weinberger,China,chipweinberger.com,0.8390797078609467
+Technology,0.7,9,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,United Kingdom,business-standard.com,0.8571296334266663
+Technology,0.7,10,20260714120000-648,Microchip Advances Neural Network Implementation with VectorBlox™ 3.0 Accelerator SDK,Philippines,manilatimes.net,0.8195508122444153
+Technology,0.9,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology,0.9,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology,0.9,3,20261007120000-1031,AI Versus Everything Else,United States,slguardian.org,0.8516257405281067
+Technology,0.9,4,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology,0.9,5,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,United Kingdom,business-standard.com,0.8571296334266663
+Technology,0.9,6,20260729120000-576,AI and events technology: Where to next?,Australia,spicenews.com.au,0.8412375152111053
+Technology,0.9,7,20260927120000-649,"The Internet, Generative AI and the Changing Architecture of the Mind",Slovenia,countercurrents.org,0.8524408042430878
+Technology,0.9,8,20261002120000-528,MEET THE AI FUTURE: GDTE 2026,China,tv6tnt.com,0.8514088988304138
+Technology,0.9,9,20260917120000-1054,From Information to Action: MEXC Upgrades AI Across the Trading Journey,Comoros,newsbtc.com,0.8331303596496582
+Technology,0.9,10,20260803120000-652,Diabetes News: The Promise of Real AI,Jordan,dailykos.com,0.8456229865550995
+Technology,1.0,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology,1.0,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology,1.0,3,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,United Kingdom,business-standard.com,0.8571296334266663
+Technology,1.0,4,20260828120000-806,From Iran to South Asia: When Cyber War Meets Nuclear Risk,United States,countercurrents.org,0.8565678000450134
+Technology,1.0,5,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology,1.0,6,20260803120000-10,Stay Protected from Cyberattacks: Simple Safeguards to Reduce Cyber Intrusions and Real-World Losses,United States,mesabitribune.com,0.8540357351303101
+Technology,1.0,7,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,India,webindia123.com,0.8537846505641937
+Technology,1.0,8,20260927120000-649,"The Internet, Generative AI and the Changing Architecture of the Mind",Slovenia,countercurrents.org,0.8524408042430878
+Technology,1.0,9,20261007120000-1031,AI Versus Everything Else,United States,slguardian.org,0.8516257405281067
+Technology,1.0,10,20261002120000-528,MEET THE AI FUTURE: GDTE 2026,China,tv6tnt.com,0.8514088988304138
+Health,0.3,1,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Health,0.3,2,20260813120000-588,U.S. Sailors Face Mental Health Crisis Amid Extended Deployment | Newsradio WOOD 1300 and 106.9 FM,Guam,iheart.com,0.7786053121089935
+Health,0.3,3,20260917120000-566,4 measles-associated deaths reported in Pennsylvania amid outbreak,United States,kedm.org,0.7732659578323364
+Health,0.3,4,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Health,0.3,5,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Health,0.3,6,20261002120000-133,Poultrymed | The Dutch Broiler Industry,Brazil,poultrymed.com,0.7758311331272125
+Health,0.3,7,20260808120000-143,"UP State Curriculum Framework: AI May Be Optional Subject, Emotional Development & Social Responsibility In Focus; Draft Under Review",India,freepressjournal.in,0.7821337282657623
+Health,0.3,8,20260803120000-469,,Syrian Arab Republic,lasvegassun.com,0.7984977066516876
+Health,0.3,9,20260729120000-626,[CityUHK Research for the Future] From wired to wireless: CityUHK's worldclass research transforms wireless charging,China,philippinetimes.com,0.7696660161018372
+Health,0.3,10,20260818120000-264,Health Ministry Steps In to Address Muslim Nurses' Uniform Dispute,Sri Lanka,lankanewspapers.com,0.7720363140106201
+Health,0.5,1,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Health,0.5,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Health,0.5,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Health,0.5,4,20260818120000-1163,Lorain County Public Health encouraging vaccines as school year starts,United States,morningjournal.com,0.7843325734138489
+Health,0.5,5,20260907120000-402,Push for path to appeal computer-determined health care,Australia,bluemountainsgazette.com.au,0.828255832195282
+Health,0.5,6,20261002120000-133,Poultrymed | The Dutch Broiler Industry,Brazil,poultrymed.com,0.7758311331272125
+Health,0.5,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Health,0.5,8,20260803120000-469,,Syrian Arab Republic,lasvegassun.com,0.7984977066516876
+Health,0.5,9,20260813120000-48,New Ideas Award Grant for Autism and Neurodevelopmental Disorder Research,China,fundsforngos.org,0.781142383813858
+Health,0.5,10,20260922120000-1091,"Air Pollution poses glaucoma, cataract risk: Study",Canada,omanobserver.om,0.7808391749858856
+Health,0.6,1,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Health,0.6,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Health,0.6,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Health,0.6,4,20260818120000-60,Health notes,United States,vindy.com,0.8446941077709198
+Health,0.6,5,20260907120000-402,Push for path to appeal computer-determined health care,Australia,bluemountainsgazette.com.au,0.828255832195282
+Health,0.6,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,Brazil,medscape.com,0.8101556897163391
+Health,0.6,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Health,0.6,8,20260729120000-1086,The Business Innovation Awards & The HRBP Awards 2026,India,taiwansun.com,0.7910061776638031
+Health,0.6,9,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,China,thailand-business-news.com,0.8246321380138397
+Health,0.6,10,20260714120000-797,"St. Joseph's Healthcare Hamilton exhibit highlights abuse, violence faced by hospital staff",Canada,cbc.ca,0.782819539308548
+Health,0.7,1,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Health,0.7,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Health,0.7,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Health,0.7,4,20260818120000-60,Health notes,United States,vindy.com,0.8446941077709198
+Health,0.7,5,20260907120000-402,Push for path to appeal computer-determined health care,Australia,bluemountainsgazette.com.au,0.828255832195282
+Health,0.7,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,Brazil,medscape.com,0.8101556897163391
+Health,0.7,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Health,0.7,8,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,Sudan,prnewswire.com,0.8296618759632111
+Health,0.7,9,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,China,thailand-business-news.com,0.8246321380138397
+Health,0.7,10,20260818120000-701,"Major change to Romania's health insurance contribution proposed again: romanians could redirect part of their contributions to private insurers. Cristina Prună: ""We pay for healthcare twice""",Romania,mediafax.ro,0.8125535845756531
+Health,0.9,1,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Health,0.9,2,20260818120000-60,Health notes,United States,vindy.com,0.8446941077709198
+Health,0.9,3,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Health,0.9,4,20260907120000-402,Push for path to appeal computer-determined health care,Australia,bluemountainsgazette.com.au,0.828255832195282
+Health,0.9,5,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Health,0.9,6,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Health,0.9,7,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,Sudan,prnewswire.com,0.8296618759632111
+Health,0.9,8,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,China,thailand-business-news.com,0.8246321380138397
+Health,0.9,9,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,Brazil,medscape.com,0.8101556897163391
+Health,0.9,10,20260818120000-955,Making healthcare efficient in N.Y.,United States,nydailynews.com,0.8370026051998138
+Health,1.0,1,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Health,1.0,2,20260818120000-60,Health notes,United States,vindy.com,0.8446941077709198
+Health,1.0,3,20260818120000-955,Making healthcare efficient in N.Y.,United States,nydailynews.com,0.8370026051998138
+Health,1.0,4,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Health,1.0,5,20260818120000-852,Search continues for space catering to long-term healthcare,United Kingdom,royalgazette.com,0.8335526287555695
+Health,1.0,6,20260714120000-436,Psychology Today New York,United States,unitaid.eu,0.8315716981887817
+Health,1.0,7,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,Sudan,prnewswire.com,0.8296618759632111
+Health,1.0,8,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Health,1.0,9,20260719120000-567,"Blue Cross, Michigan Medicine contract fight: What patients should know",United States,bitacora.com.uy,0.8289572298526764
+Health,1.0,10,20261002120000-368,"Chiron Medical Group's October ""Safeguarding Breast Health With Heart"" Campaign: Integrating Breast Health into Daily Life",Hong Kong,manilatimes.net,0.8283115923404694
+Technology + Health,0.3,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology + Health,0.3,2,20260808120000-176,Yemen's collapsing healthcare forces the sick to seek alternative medicines | Health News,Yemen,aljazeera.com,0.7890091836452484
+Technology + Health,0.3,3,20260803120000-90,Data breaches: What to do if you fall victim to a cyberattack,Australia,smh.com.au,0.8072675466537476
+Technology + Health,0.3,4,20260714120000-436,Psychology Today New York,United States,unitaid.eu,0.8315716981887817
+Technology + Health,0.3,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology + Health,0.3,6,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,Sudan,prnewswire.com,0.8296618759632111
+Technology + Health,0.3,7,20260917120000-1027,"Panel Discussion on Privacy, National Security & India's need for a Privacy Legislation",India,legallyindia.com,0.8085780441761017
+Technology + Health,0.3,8,20260922120000-1111,AI solved one of math's hardest problems. Humanity learned nothing (so far),Switzerland,apr.org,0.8033122420310974
+Technology + Health,0.3,9,20260714120000-1129,Pedestrian in hospital with life-threatening injuries,United Kingdom,southwalesargus.co.uk,0.795097827911377
+Technology + Health,0.3,10,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,Malaysia,manilatimes.net,0.8346033692359924
+Technology + Health,0.5,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology + Health,0.5,2,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Technology + Health,0.5,3,20260828120000-806,From Iran to South Asia: When Cyber War Meets Nuclear Risk,United States,countercurrents.org,0.8565678000450134
+Technology + Health,0.5,4,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,India,webindia123.com,0.8537846505641937
+Technology + Health,0.5,5,20260813120000-955,MediPharm Labs Corp.: MediPharm Labs Reports Positive Q2 2026 Net Income and Second Consecutive Quarter of Positive Adjusted EBITDA,Australia,finanznachrichten.de,0.7922199070453644
+Technology + Health,0.5,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology + Health,0.5,7,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Technology + Health,0.5,8,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Technology + Health,0.5,9,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,Malaysia,manilatimes.net,0.8346033692359924
+Technology + Health,0.5,10,20261002120000-1028,Nvidia and Micron Can't Make AI Chips Without This Growth Stock. Here's Why It Could Soar.,"Taiwan, Province of China",aol.com,0.8226955533027649
+Technology + Health,0.6,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology + Health,0.6,2,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Technology + Health,0.6,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology + Health,0.6,4,20260714120000-436,Psychology Today New York,United States,unitaid.eu,0.8315716981887817
+Technology + Health,0.6,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology + Health,0.6,6,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,Australia,bozemandailychronicle.com,0.8420840501785278
+Technology + Health,0.6,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Technology + Health,0.6,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,Malaysia,manilatimes.net,0.8346033692359924
+Technology + Health,0.6,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,China,chipweinberger.com,0.8390797078609467
+Technology + Health,0.6,10,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Technology + Health,0.7,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology + Health,0.7,2,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Technology + Health,0.7,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology + Health,0.7,4,20261007120000-1031,AI Versus Everything Else,United States,slguardian.org,0.8516257405281067
+Technology + Health,0.7,5,20260907120000-402,Push for path to appeal computer-determined health care,Australia,bluemountainsgazette.com.au,0.828255832195282
+Technology + Health,0.7,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Argentina,yahoo.com,0.8097810447216034
+Technology + Health,0.7,7,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Ireland,southernstar.ie,0.829084575176239
+Technology + Health,0.7,8,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology + Health,0.7,9,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Philippines,manilatimes.net,0.8220018446445465
+Technology + Health,0.7,10,20260724120000-286,Everything you need to know about clinical trial legislation changes,United Kingdom,pharmaceutical-journal.com,0.8336820900440216
+Technology + Health,0.9,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology + Health,0.9,2,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Technology + Health,0.9,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology + Health,0.9,4,20261007120000-1031,AI Versus Everything Else,United States,slguardian.org,0.8516257405281067
+Technology + Health,0.9,5,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology + Health,0.9,6,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,United Kingdom,business-standard.com,0.8571296334266663
+Technology + Health,0.9,7,20260729120000-576,AI and events technology: Where to next?,Australia,spicenews.com.au,0.8412375152111053
+Technology + Health,0.9,8,20260927120000-649,"The Internet, Generative AI and the Changing Architecture of the Mind",Slovenia,countercurrents.org,0.8524408042430878
+Technology + Health,0.9,9,20261002120000-528,MEET THE AI FUTURE: GDTE 2026,China,tv6tnt.com,0.8514088988304138
+Technology + Health,0.9,10,20260803120000-652,Diabetes News: The Promise of Real AI,Jordan,dailykos.com,0.8456229865550995
+Technology + Health,1.0,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Denmark,pctechmag.com,0.8686546683311462
+Technology + Health,1.0,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,India,legallyindia.com,0.8653769791126251
+Technology + Health,1.0,3,20261013120000-300,Not only for medical tourism,Nigeria,thenationonlineng.net,0.8627562820911407
+Technology + Health,1.0,4,20261013120000-385,From supermarkets to airports: Cyberattacks that disrupted real-world ops,United Kingdom,business-standard.com,0.8571296334266663
+Technology + Health,1.0,5,20260828120000-806,From Iran to South Asia: When Cyber War Meets Nuclear Risk,United States,countercurrents.org,0.8565678000450134
+Technology + Health,1.0,6,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Malaysia,therakyatpost.com,0.8559894263744354
+Technology + Health,1.0,7,20260803120000-10,Stay Protected from Cyberattacks: Simple Safeguards to Reduce Cyber Intrusions and Real-World Losses,United States,mesabitribune.com,0.8540357351303101
+Technology + Health,1.0,8,20260912120000-557,From Brain Waves to Intelligent Insights: How Artificial Intelligence Is Transforming Neural Signal Analysis,India,webindia123.com,0.8537846505641937
+Technology + Health,1.0,9,20260927120000-649,"The Internet, Generative AI and the Changing Architecture of the Mind",Slovenia,countercurrents.org,0.8524408042430878
+Technology + Health,1.0,10,20261007120000-1031,AI Versus Everything Else,United States,slguardian.org,0.8516257405281067

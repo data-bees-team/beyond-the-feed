@@ -29,8 +29,12 @@ PROFILES = {
     },
 }
 
-THRESHOLD = 0.65
+# THRESHOLD = 0.65
+# POOL_SIZE = 300
+
+THRESHOLDS = [0.65, 0.60, 0.55, 0.50, 0.45]
 POOL_SIZE = 300
+
 
 
 def evaluate_profile(name, profile, df, embeddings, topic_embeddings):
@@ -56,10 +60,37 @@ def evaluate_profile(name, profile, df, embeddings, topic_embeddings):
     )
 
     cross_topic = candidates["hybrid_topic_score"] == 0
+    
+    if name == "Technology":
+        print("\n=== TOP 15 CROSS-TOPIC ARTICLES ===")
+
+        top_cross = candidates[cross_topic].sort_values(
+            "description_semantic_score",
+            ascending=False
+        ).head(15)
+
+        for _, article in top_cross.iterrows():
+            print(
+                f"{article['description_semantic_score']:.3f} | "
+                f"{article['title']}"
+            )
+    
+    print(f"\n=== {name}: THRESHOLD COMPARISON ===")
+
+    for threshold in THRESHOLDS:
+        eligible_cross = candidates[
+            cross_topic
+            & (candidates["description_semantic_score"] >= threshold)
+        ]
+
+        print(
+            f"Threshold {threshold:.2f}: "
+            f"{len(eligible_cross)} cross-topic candidates"
+        )
 
     eligible = candidates[
         (~cross_topic)
-        | (candidates["description_semantic_score"] >= THRESHOLD)
+        | (candidates["description_semantic_score"] >= 0.65)
     ].copy()
 
     eligible = deduplicate_candidates(eligible)

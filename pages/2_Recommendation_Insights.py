@@ -106,137 +106,98 @@ else:
     current_df = pd.DataFrame(columns=df.columns)
 
 st.title("Your Recommendation Insights")
-st.caption("A transparent view of your interests, feedback and news exposure — based on your own activity.")
-if not selected:
-    st.info("Select your interests in My Feed to start building your profile.")
+st.caption("Your selected interests, article feedback, and the variety of news you receive.")
 
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Selected interests", len(selected))
-c2.metric("Articles rated", len(likes) + len(dislikes))
-c3.metric("Articles recommended", len(history_ids), help="Distinct articles in your saved recommendation history")
-c4.metric("Current feed", len(current_df), help="Articles currently displayed in My Feed during this session")
+st.subheader("Your selected interests")
+if selected:
+    st.write(" · ".join(f"**{topic}**" for topic in selected))
+else:
+    st.info("Select interests in My Feed to personalize recommendations.")
+st.caption("These are your chosen topics. Disliking an article does not remove a selected interest here.")
+
+st.subheader("Your article feedback")
+a, b, c = st.columns(3)
+a.metric("Interested articles", len(likes))
+b.metric("Not interested articles", len(dislikes))
+c.metric("Total articles rated", len(likes) + len(dislikes))
+st.caption("Likes and Dislikes refer to individual articles, not entire topics. Feedback can adjust future ranking; these counts are not topic preference scores.")
 
 st.divider()
-st.subheader("1. Your interests and feedback")
-st.write("**Selected interests:** " + (", ".join(selected) if selected else "None yet"))
-
-rated_df = df[df["article_id"].isin(likes | dislikes)].copy()
-if rated_df.empty:
-    st.info("No rated articles found in the dataset yet. Like or dislike stories in My Feed to see your feedback profile.")
+st.subheader("Your current feed")
+if current_df.empty:
+    st.info("Generate a feed in My Feed to see its topic coverage and source variety.")
 else:
-    rows = []
-    for _, article in rated_df.iterrows():
-        art_id = article["article_id"]
-        for topic in set(parse_topics(article.get("topic_list", []))):
-            if topic.lower() not in {"unknown", "other"}:
-                rows.append({"Topic": topic, "Feedback": "Interested" if art_id in likes else "Not interested"})
-    if rows:
-        grouped = pd.DataFrame(rows).groupby(["Topic", "Feedback"]).size().reset_index(name="Articles")
-        totals = grouped.groupby("Topic")["Articles"].sum().nlargest(12).index
-        fig = px.bar(grouped[grouped["Topic"].isin(totals)], x="Topic", y="Articles", color="Feedback",
-                     barmode="group", color_discrete_map={"Interested": "#0D9488", "Not interested": "#E58A70"})
-        fig.update_layout(height=370, margin=dict(l=10, r=10, t=15, b=10), xaxis_tickangle=-30)
-        st.plotly_chart(fig, use_container_width=True)
-        st.caption("Counts reflect topic labels on rated articles. One article can contribute to multiple topics; these are not learned model weights.")
-    else:
-        st.info("Your rated articles do not have usable topic labels.")
+    current_topics_count = topic_counts(current_df)
+    valid_countries = (current_df["country"].dropna().astype(str) if "country" in current_df else pd.Series(dtype=str))
+    valid_countries = valid_countries[valid_countries.map(meaningful)]
+    valid_publishers = (current_df["publisher"].dropna().astype(str) if "publisher" in current_df else pd.Series(dtype=str))
+    valid_publishers = valid_publishers[valid_publishers.map(meaningful)]
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Articles", len(current_df))
+    m2.metric("Topics covered", len(current_topics_count))
+    m3.metric("Countries", valid_countries.nunique())
+    m4.metric("Publishers", valid_publishers.nunique())
 
-left, right = st.columns([1, 1], gap="large")
-with left:
-    st.subheader("2. Your feedback activity")
-    if likes or dislikes:
-        fig = px.pie(pd.DataFrame({"Feedback": ["Interested", "Not interested"], "Articles": [len(likes), len(dislikes)]}),
-                     names="Feedback", values="Articles", hole=0.62,
-                     color="Feedback", color_discrete_map={"Interested": "#0D9488", "Not interested": "#E58A70"})
-        fig.update_layout(height=320, margin=dict(l=10, r=10, t=10, b=10), legend=dict(orientation="h", y=-0.1))
-        st.plotly_chart(fig, use_container_width=True)
-    else:
-        st.info("Your likes and dislikes will appear here after you rate articles.")
-
-with right:
-    st.subheader("3. Your discovery mix")
-    if current_df.empty:
-        st.info("Generate a feed in My Feed to see how its articles connect to your selected interests.")
-    elif not selected:
-        st.info("Choose interests in My Feed to classify your discovery mix.")
-    else:
+    if selected:
         chosen = set(selected)
-        counts = {"Your interests only": 0, "Your interests + other topics": 0, "No exact topic match": 0}
+        mix_counts = {"Selected topics only": 0, "Selected + other topics": 0, "Other topics only": 0}
         for _, article in current_df.iterrows():
             tags = set(parse_topics(article.get("topic_list", [])))
             matched = tags & chosen
             if matched and tags - chosen:
-                counts["Your interests + other topics"] += 1
+                mix_counts["Selected + other topics"] += 1
             elif matched:
-                counts["Your interests only"] += 1
+                mix_counts["Selected topics only"] += 1
             else:
-                counts["No exact topic match"] += 1
-        mix = pd.DataFrame({"Type": list(counts), "Articles": list(counts.values())})
-        fig = px.pie(mix[mix["Articles"] > 0], names="Type", values="Articles", hole=0.62,
-                     color="Type", color_discrete_map={
-                         "Your interests only": "#0D9488", "Your interests + other topics": "#3B82F6",
-                         "No exact topic match": "#F59E0B"})
-        fig.update_layout(height=320, margin=dict(l=10, r=10, t=10, b=10), legend=dict(orientation="h", y=-0.12))
-        st.plotly_chart(fig, use_container_width=True)
-        st.caption("Based on topic labels in your current feed, not a direct measurement of semantic similarity.")
+                mix_counts["Other topics only"] += 1
+        st.markdown("**How your feed connects to your interests**")
+        cols = st.columns(3)
+        for col, (label, count) in zip(cols, mix_counts.items()):
+            col.metric(label, count)
+        st.caption("Based on article topic labels. 'Other topics only' means no exact topic-label match, not necessarily irrelevant content.")
 
-st.divider()
-st.subheader("4. Where your news comes from")
-source = st.radio("Show exposure for", ["Current feed", "Recommendation history"], horizontal=True)
-exposure = current_df if source == "Current feed" else history_df
-if exposure.empty:
-    st.info("No articles available for this view. Generate a feed in My Feed first.")
-else:
-    a, b = st.columns(2, gap="large")
-    with a:
-        st.markdown("**Articles by continent**")
-        if "continent" in exposure.columns:
-            cont = exposure["continent"].dropna().astype(str)
-            cont = cont[cont.map(meaningful)]
-            if not cont.empty:
-                counts = cont.value_counts().reset_index()
-                counts.columns = ["Continent", "Articles"]
-                fig = px.bar(counts, x="Continent", y="Articles", color_discrete_sequence=["#0D9488"])
-                fig.update_layout(height=310, margin=dict(l=10, r=10, t=10, b=10), xaxis_tickangle=-20)
+    with st.expander("Explore topic, geographic and publisher details"):
+        source = st.radio("View", ["Current feed", "Recommendation history"], horizontal=True)
+        exposure = current_df if source == "Current feed" else history_df
+        if exposure.empty:
+            st.info("No articles available for this view.")
+        else:
+            left, right = st.columns(2)
+            with left:
+                counts = topic_counts(exposure)
+                st.markdown("**Topics appearing in articles**")
+                if counts:
+                    topic_plot = pd.DataFrame(sorted(counts.items(), key=lambda x: x[1], reverse=True)[:10], columns=["Topic", "Articles"])
+                    fig = px.bar(topic_plot, x="Articles", y="Topic", orientation="h")
+                    fig.update_layout(height=300, margin=dict(l=10, r=10, t=10, b=10), yaxis={"categoryorder": "total ascending"})
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("No topic labels available.")
+            with right:
+                st.markdown("**Articles by continent**")
+                continents = exposure["continent"].dropna().astype(str) if "continent" in exposure else pd.Series(dtype=str)
+                continents = continents[continents.map(meaningful)]
+                if not continents.empty:
+                    cont_plot = continents.value_counts().rename_axis("Continent").reset_index(name="Articles")
+                    fig = px.bar(cont_plot, x="Continent", y="Articles")
+                    fig.update_layout(height=300, margin=dict(l=10, r=10, t=10, b=10))
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("No continent data available.")
+            publishers = exposure["publisher"].dropna().astype(str) if "publisher" in exposure else pd.Series(dtype=str)
+            publishers = publishers[publishers.map(meaningful)]
+            st.markdown("**Publisher coverage**")
+            if not publishers.empty:
+                publisher_counts = publishers.value_counts()
+                st.caption(f"{len(publisher_counts)} distinct publishers across {len(publishers)} articles with publisher data. Most frequent publisher: {publisher_counts.iloc[0]} article(s).")
+                pub_plot = publisher_counts.head(10).rename_axis("Publisher").reset_index(name="Articles")
+                fig = px.bar(pub_plot, x="Articles", y="Publisher", orientation="h")
+                fig.update_layout(height=300, margin=dict(l=10, r=10, t=10, b=10), yaxis={"categoryorder": "total ascending"})
                 st.plotly_chart(fig, use_container_width=True)
             else:
-                st.info("No continent metadata available.")
-        else:
-            st.info("No continent metadata available.")
-    with b:
-        st.markdown("**Most frequent topics**")
-        counts = topic_counts(exposure)
-        if counts:
-            plot = pd.DataFrame(sorted(counts.items(), key=lambda x: x[1], reverse=True)[:10], columns=["Topic", "Articles"])
-            fig = px.bar(plot, x="Articles", y="Topic", orientation="h", color_discrete_sequence=["#3B82F6"])
-            fig.update_layout(height=310, margin=dict(l=10, r=10, t=10, b=10), yaxis={"categoryorder": "total ascending"})
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.info("No topic metadata available.")
-    publishers = exposure["publisher"].dropna().astype(str) if "publisher" in exposure else pd.Series(dtype=str)
-    publishers = publishers[publishers.map(meaningful)]
-    st.caption(f"{publishers.nunique()} distinct publishers in this view. Geographic and publisher counts describe metadata coverage, not viewpoint diversity or fairness.")
+                st.info("No publisher data available.")
+            st.caption("Coverage counts describe article metadata, not viewpoint diversity or fairness.")
 
-st.divider()
-st.caption("Insights are descriptive. Feedback counts do not establish that an individual recommendation was caused by feedback. Historical exposure counts include distinct articles and may differ from the number of feed-generation events.")
-
-
-st.divider()
-st.subheader("5. How your recommendations adapt")
-if not likes and not dislikes:
-    st.info("No feedback profile yet. Like or dislike articles in My Feed to personalize future recommendations.")
-else:
-    st.write(
-        f"Your feedback profile currently uses **{len(likes)} interested** and "
-        f"**{len(dislikes)} not interested** article ratings."
-    )
-    st.write(
-        "When you generate or load more recommendations, the system rebuilds a "
-        "content-preference vector from your rated article embeddings. "
-        "Similarity to that vector adjusts article relevance before diversity-aware reranking."
-    )
-    st.caption(
-        "This confirms that feedback is available for personalization; it does not "
-        "measure whether a particular recommendation improved or changed because of a click. "
-        "Controlled before-and-after results belong in the evaluation dashboard."
-    )
+with st.expander("How feedback affects recommendations"):
+    st.write("Your Likes and Dislikes are recorded for articles. When new recommendations are generated, the recommender can use those article embeddings to adjust rankings alongside selected interests and diversity-aware reranking.")
+    st.caption("This page describes recorded feedback and current feed content. It does not prove that a specific click caused a particular recommendation.")

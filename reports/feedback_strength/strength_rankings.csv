@@ -1,0 +1,121 @@
+scenario,feedback_weight,rank,article_id,title,baseline_rank
+like_only,0.0,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_only,0.0,2,20261013120000-300,Not only for medical tourism,2.0
+like_only,0.0,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+like_only,0.0,4,20260714120000-436,Psychology Today New York,4.0
+like_only,0.0,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+like_only,0.0,6,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,6.0
+like_only,0.0,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_only,0.0,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+like_only,0.0,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+like_only,0.0,10,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+like_only,0.05,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_only,0.05,2,20261013120000-300,Not only for medical tourism,2.0
+like_only,0.05,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+like_only,0.05,4,20260714120000-436,Psychology Today New York,4.0
+like_only,0.05,5,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,6.0
+like_only,0.05,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+like_only,0.05,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_only,0.05,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+like_only,0.05,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+like_only,0.05,10,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+like_only,0.1,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_only,0.1,2,20261013120000-300,Not only for medical tourism,2.0
+like_only,0.1,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+like_only,0.1,4,20261007120000-1031,AI Versus Everything Else,
+like_only,0.1,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+like_only,0.1,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+like_only,0.1,7,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+like_only,0.1,8,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_only,0.1,9,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+like_only,0.1,10,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+like_only,0.15,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_only,0.15,2,20261013120000-300,Not only for medical tourism,2.0
+like_only,0.15,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+like_only,0.15,4,20261007120000-1031,AI Versus Everything Else,
+like_only,0.15,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+like_only,0.15,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+like_only,0.15,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_only,0.15,8,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,
+like_only,0.15,9,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+like_only,0.15,10,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+dislike_only,0.0,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+dislike_only,0.0,2,20261013120000-300,Not only for medical tourism,2.0
+dislike_only,0.0,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+dislike_only,0.0,4,20260714120000-436,Psychology Today New York,4.0
+dislike_only,0.0,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+dislike_only,0.0,6,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,6.0
+dislike_only,0.0,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+dislike_only,0.0,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+dislike_only,0.0,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+dislike_only,0.0,10,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+dislike_only,0.05,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+dislike_only,0.05,2,20261013120000-300,Not only for medical tourism,2.0
+dislike_only,0.05,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+dislike_only,0.05,4,20260714120000-436,Psychology Today New York,4.0
+dislike_only,0.05,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+dislike_only,0.05,6,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+dislike_only,0.05,7,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,
+dislike_only,0.05,8,20260927120000-649,"The Internet, Generative AI and the Changing Architecture of the Mind",
+dislike_only,0.05,9,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+dislike_only,0.05,10,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,
+dislike_only,0.1,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+dislike_only,0.1,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+dislike_only,0.1,3,20260813120000-588,U.S. Sailors Face Mental Health Crisis Amid Extended Deployment | Newsradio WOOD 1300 and 106.9 FM,
+dislike_only,0.1,4,20260719120000-567,"Blue Cross, Michigan Medicine contract fight: What patients should know",
+dislike_only,0.1,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+dislike_only,0.1,6,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,
+dislike_only,0.1,7,20260818120000-1168,Dimitra Simeonidou: Embedding AI into telecom networks,
+dislike_only,0.1,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+dislike_only,0.1,9,20260813120000-323,3 Semiconductor Stocks to Buy Before the Next AI Earnings Wave in August,
+dislike_only,0.1,10,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+dislike_only,0.15,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+dislike_only,0.15,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+dislike_only,0.15,3,20260813120000-588,U.S. Sailors Face Mental Health Crisis Amid Extended Deployment | Newsradio WOOD 1300 and 106.9 FM,
+dislike_only,0.15,4,20260719120000-567,"Blue Cross, Michigan Medicine contract fight: What patients should know",
+dislike_only,0.15,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+dislike_only,0.15,6,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,
+dislike_only,0.15,7,20260922120000-1111,AI solved one of math's hardest problems. Humanity learned nothing (so far),
+dislike_only,0.15,8,20261002120000-533,Rolling the cyber dice with open-source and open-weight AI models,
+dislike_only,0.15,9,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+dislike_only,0.15,10,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+like_and_dislike,0.0,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_and_dislike,0.0,2,20261013120000-300,Not only for medical tourism,2.0
+like_and_dislike,0.0,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+like_and_dislike,0.0,4,20260714120000-436,Psychology Today New York,4.0
+like_and_dislike,0.0,5,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+like_and_dislike,0.0,6,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,6.0
+like_and_dislike,0.0,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_and_dislike,0.0,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+like_and_dislike,0.0,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+like_and_dislike,0.0,10,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+like_and_dislike,0.05,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_and_dislike,0.05,2,20261013120000-300,Not only for medical tourism,2.0
+like_and_dislike,0.05,3,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+like_and_dislike,0.05,4,20260714120000-436,Psychology Today New York,4.0
+like_and_dislike,0.05,5,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,6.0
+like_and_dislike,0.05,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+like_and_dislike,0.05,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_and_dislike,0.05,8,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+like_and_dislike,0.05,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+like_and_dislike,0.05,10,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+like_and_dislike,0.1,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_and_dislike,0.1,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+like_and_dislike,0.1,3,20260818120000-60,Health notes,
+like_and_dislike,0.1,4,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+like_and_dislike,0.1,5,20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,6.0
+like_and_dislike,0.1,6,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,
+like_and_dislike,0.1,7,20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,8.0
+like_and_dislike,0.1,8,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+like_and_dislike,0.1,9,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_and_dislike,0.1,10,20260917120000-1054,From Information to Action: MEXC Upgrades AI Across the Trading Journey,
+like_and_dislike,0.15,1,20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,1.0
+like_and_dislike,0.15,2,20260917120000-1033,Cybersecurity in the Indian Banking Sector,3.0
+like_and_dislike,0.15,3,20260813120000-699,AI in Central Florida classrooms: A district-by-district policy breakdown,
+like_and_dislike,0.15,4,20261013120000-300,Not only for medical tourism,2.0
+like_and_dislike,0.15,5,20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",
+like_and_dislike,0.15,6,20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,5.0
+like_and_dislike,0.15,7,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,
+like_and_dislike,0.15,8,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,10.0
+like_and_dislike,0.15,9,20260719120000-229,Hardware is not so hard - Chip Weinberger,9.0
+like_and_dislike,0.15,10,20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,

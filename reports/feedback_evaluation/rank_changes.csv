@@ -1,0 +1,15 @@
+article_id,title,topic_list,topic_group,before_rank,after_rank,synthetic_feedback
+20260922120000-27,Industrial Automation Hardware Trends: What's Shaping the Factory Floor in 2026,Technology; Business and Economy; Conflict and Security; Environment and Climate; Health,selected_and_other_topics,1.0,1.0,liked
+20261013120000-300,Not only for medical tourism,Health; Society and Culture; Business and Economy; Conflict and Security; Education; Politics and Government,selected_and_other_topics,2.0,4.0,disliked
+20260917120000-1033,Cybersecurity in the Indian Banking Sector,Business and Economy; Conflict and Security; Environment and Climate; Politics and Government; Society and Culture; Technology,selected_and_other_topics,3.0,2.0,none
+20260714120000-436,Psychology Today New York,Health,selected_topics_only,4.0,,none
+20260907120000-208,Tech companies look to Argentina's windswept Patagonia to build massive data centers,Technology; Politics and Government,selected_and_other_topics,5.0,6.0,none
+20260927120000-131,Anthropic and OpenAI sound the alarm on AI safety — and seek to shape how it's controlled,Technology; Business and Economy; Conflict and Security; Education; Environment and Climate; Politics and Government; Science; Society and Culture,selected_and_other_topics,6.0,,none
+20260724120000-286,Everything you need to know about clinical trial legislation changes,Politics and Government; Business and Economy; Conflict and Security; Education; Environment and Climate; Health; Science; Technology,selected_and_other_topics,7.0,,none
+20260818120000-1130,Tencent Cloud Deepens Commitment to Malaysia with New Cloud Region and AI Talent Development Initiatives,Technology; Business and Economy; Conflict and Security; Education; Environment and Climate; Politics and Government; Science,selected_and_other_topics,8.0,,none
+20260719120000-229,Hardware is not so hard - Chip Weinberger,Technology; Business and Economy; Society and Culture,selected_and_other_topics,9.0,9.0,none
+20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,Health; Environment and Climate; Science,selected_and_other_topics,10.0,8.0,none
+20260813120000-699,AI in Central Florida classrooms: A district-by-district policy breakdown,Technology; Education,selected_and_other_topics,,3.0,none
+20260902120000-171,"Federal government presents proposed updates to privacy laws accounting for AI, smart tech",Technology; Business and Economy; Conflict and Security; Education; Politics and Government; Science; Society and Culture,selected_and_other_topics,,5.0,none
+20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,Business and Economy; Conflict and Security; Environment and Climate; Health; Politics and Government; Society and Culture; Technology,selected_and_other_topics,,7.0,none
+20260922120000-1244,Open DC: Data Centres In Malaysia Help Evolve Technology Locally,Technology,selected_topics_only,,10.0,none

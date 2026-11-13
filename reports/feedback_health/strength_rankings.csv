@@ -1,0 +1,121 @@
+scenario,feedback_weight,rank,article_id,title,baseline_rank
+like_only,0.0,1,20261013120000-300,Not only for medical tourism,1.0
+like_only,0.0,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,2.0
+like_only,0.0,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+like_only,0.0,4,20260818120000-60,Health notes,4.0
+like_only,0.0,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+like_only,0.0,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,6.0
+like_only,0.0,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_only,0.0,8,20260729120000-1086,The Business Innovation Awards & The HRBP Awards 2026,8.0
+like_only,0.0,9,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,9.0
+like_only,0.0,10,20260714120000-797,"St. Joseph's Healthcare Hamilton exhibit highlights abuse, violence faced by hospital staff",10.0
+like_only,0.05,1,20261013120000-300,Not only for medical tourism,1.0
+like_only,0.05,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,2.0
+like_only,0.05,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+like_only,0.05,4,20260818120000-60,Health notes,4.0
+like_only,0.05,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+like_only,0.05,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,6.0
+like_only,0.05,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_only,0.05,8,20260729120000-1086,The Business Innovation Awards & The HRBP Awards 2026,8.0
+like_only,0.05,9,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,
+like_only,0.05,10,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,9.0
+like_only,0.1,1,20261013120000-300,Not only for medical tourism,1.0
+like_only,0.1,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,2.0
+like_only,0.1,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+like_only,0.1,4,20260818120000-60,Health notes,4.0
+like_only,0.1,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+like_only,0.1,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,6.0
+like_only,0.1,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_only,0.1,8,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,
+like_only,0.1,9,20260729120000-1086,The Business Innovation Awards & The HRBP Awards 2026,8.0
+like_only,0.1,10,20260818120000-701,"Major change to Romania's health insurance contribution proposed again: romanians could redirect part of their contributions to private insurers. Cristina Prună: ""We pay for healthcare twice""",
+like_only,0.15,1,20261013120000-300,Not only for medical tourism,1.0
+like_only,0.15,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,2.0
+like_only,0.15,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+like_only,0.15,4,20260818120000-60,Health notes,4.0
+like_only,0.15,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+like_only,0.15,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,6.0
+like_only,0.15,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_only,0.15,8,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,
+like_only,0.15,9,20260818120000-701,"Major change to Romania's health insurance contribution proposed again: romanians could redirect part of their contributions to private insurers. Cristina Prună: ""We pay for healthcare twice""",
+like_only,0.15,10,20261007120000-925,"Flooding, conflict leave Fangak communities struggling to access healthcare",
+dislike_only,0.0,1,20261013120000-300,Not only for medical tourism,1.0
+dislike_only,0.0,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,2.0
+dislike_only,0.0,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+dislike_only,0.0,4,20260818120000-60,Health notes,4.0
+dislike_only,0.0,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+dislike_only,0.0,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,6.0
+dislike_only,0.0,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+dislike_only,0.0,8,20260729120000-1086,The Business Innovation Awards & The HRBP Awards 2026,8.0
+dislike_only,0.0,9,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,9.0
+dislike_only,0.0,10,20260714120000-797,"St. Joseph's Healthcare Hamilton exhibit highlights abuse, violence faced by hospital staff",10.0
+dislike_only,0.05,1,20261013120000-300,Not only for medical tourism,1.0
+dislike_only,0.05,2,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+dislike_only,0.05,3,20260714120000-436,Psychology Today New York,
+dislike_only,0.05,4,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+dislike_only,0.05,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+dislike_only,0.05,6,20261002120000-133,Poultrymed | The Dutch Broiler Industry,
+dislike_only,0.05,7,20261002120000-540,Waits and measures | Sur in English,
+dislike_only,0.05,8,20260818120000-1114,"Research roundup: predicting house fires, detecting disease",
+dislike_only,0.05,9,20260803120000-336,Essential Cardiothoracic and Vascular Surgery for Nurses,
+dislike_only,0.05,10,20260813120000-92,U.S. Sailors Face Mental Health Crisis Amid Extended Deployment,
+dislike_only,0.1,1,20261013120000-300,Not only for medical tourism,1.0
+dislike_only,0.1,2,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+dislike_only,0.1,3,20260714120000-436,Psychology Today New York,
+dislike_only,0.1,4,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+dislike_only,0.1,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+dislike_only,0.1,6,20261002120000-133,Poultrymed | The Dutch Broiler Industry,
+dislike_only,0.1,7,20261002120000-540,Waits and measures | Sur in English,
+dislike_only,0.1,8,20261013120000-100,Vaping among teenagers: Study shows health risks,
+dislike_only,0.1,9,20260729120000-1086,The Business Innovation Awards & The HRBP Awards 2026,8.0
+dislike_only,0.1,10,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,9.0
+dislike_only,0.15,1,20261013120000-300,Not only for medical tourism,1.0
+dislike_only,0.15,2,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+dislike_only,0.15,3,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+dislike_only,0.15,4,20260714120000-436,Psychology Today New York,
+dislike_only,0.15,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+dislike_only,0.15,6,20261002120000-133,Poultrymed | The Dutch Broiler Industry,
+dislike_only,0.15,7,20260917120000-607,Standing Committee on Poverty Alleviation and Social Safety,
+dislike_only,0.15,8,20261013120000-100,Vaping among teenagers: Study shows health risks,
+dislike_only,0.15,9,20260927120000-124,"Nanomedicine to drive next generation of precision medicine, personalised healthcare: Dr Jitendra Singh",
+dislike_only,0.15,10,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,9.0
+like_and_dislike,0.0,1,20261013120000-300,Not only for medical tourism,1.0
+like_and_dislike,0.0,2,20260917120000-856,YOUR MENTAL HEALTH: Letting go of your angry thoughts,2.0
+like_and_dislike,0.0,3,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+like_and_dislike,0.0,4,20260818120000-60,Health notes,4.0
+like_and_dislike,0.0,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+like_and_dislike,0.0,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,6.0
+like_and_dislike,0.0,7,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_and_dislike,0.0,8,20260729120000-1086,The Business Innovation Awards & The HRBP Awards 2026,8.0
+like_and_dislike,0.0,9,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,9.0
+like_and_dislike,0.0,10,20260714120000-797,"St. Joseph's Healthcare Hamilton exhibit highlights abuse, violence faced by hospital staff",10.0
+like_and_dislike,0.05,1,20261013120000-300,Not only for medical tourism,1.0
+like_and_dislike,0.05,2,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+like_and_dislike,0.05,3,20260714120000-436,Psychology Today New York,
+like_and_dislike,0.05,4,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_and_dislike,0.05,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+like_and_dislike,0.05,6,20261002120000-133,Poultrymed | The Dutch Broiler Industry,
+like_and_dislike,0.05,7,20261002120000-540,Waits and measures | Sur in English,
+like_and_dislike,0.05,8,20260803120000-336,Essential Cardiothoracic and Vascular Surgery for Nurses,
+like_and_dislike,0.05,9,20260818120000-1114,"Research roundup: predicting house fires, detecting disease",
+like_and_dislike,0.05,10,20260813120000-688,Coffee and heart health: Why cardiologists' view of caffeine has shifted,
+like_and_dislike,0.1,1,20261013120000-300,Not only for medical tourism,1.0
+like_and_dislike,0.1,2,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+like_and_dislike,0.1,3,20260714120000-436,Psychology Today New York,
+like_and_dislike,0.1,4,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_and_dislike,0.1,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+like_and_dislike,0.1,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,6.0
+like_and_dislike,0.1,7,20260927120000-124,"Nanomedicine to drive next generation of precision medicine, personalised healthcare: Dr Jitendra Singh",
+like_and_dislike,0.1,8,20260818120000-701,"Major change to Romania's health insurance contribution proposed again: romanians could redirect part of their contributions to private insurers. Cristina Prună: ""We pay for healthcare twice""",
+like_and_dislike,0.1,9,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,
+like_and_dislike,0.1,10,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,9.0
+like_and_dislike,0.15,1,20261013120000-300,Not only for medical tourism,1.0
+like_and_dislike,0.15,2,20260813120000-524,MiNK Therapeutics Reports Second Quarter 2026 Financial Results and Reports Observations from Randomized Phase 2 Trial of agenT-797 in Acute Lung Injury,3.0
+like_and_dislike,0.15,3,20260724120000-286,Everything you need to know about clinical trial legislation changes,7.0
+like_and_dislike,0.15,4,20260714120000-436,Psychology Today New York,
+like_and_dislike,0.15,5,20260907120000-402,Push for path to appeal computer-determined health care,5.0
+like_and_dislike,0.15,6,20260729120000-89,How to Confirm Patients Understand Prescription Instructions,6.0
+like_and_dislike,0.15,7,20260927120000-124,"Nanomedicine to drive next generation of precision medicine, personalised healthcare: Dr Jitendra Singh",
+like_and_dislike,0.15,8,20260922120000-336,Decoy Therapeutics Exploring Pan-Filovirus Program via FDA Animal Rule Pathway and Non-Dilutive Funding,
+like_and_dislike,0.15,9,20260818120000-701,"Major change to Romania's health insurance contribution proposed again: romanians could redirect part of their contributions to private insurers. Cristina Prună: ""We pay for healthcare twice""",
+like_and_dislike,0.15,10,20260828120000-44,InxMed Announces Publication in The Lancet Oncology Featuring Encouraging Antitumor Activity of Ifebemtinib in Combination with Garsorasib in Previously Treated Metastatic Colorectal Cancer (CRC) Harboring KRAS G12C Mutation,9.0

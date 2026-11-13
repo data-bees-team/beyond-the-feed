@@ -1,0 +1,121 @@
+scenario,feedback_weight,rank,article_id,title,baseline_rank
+like_only,0.0,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+like_only,0.0,2,20261007120000-907,This election is about reclaiming the federal government,2.0
+like_only,0.0,3,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+like_only,0.0,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+like_only,0.0,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+like_only,0.0,6,20260902120000-394,Palau takes charge as Forum Leaders begin talks,6.0
+like_only,0.0,7,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+like_only,0.0,8,20260813120000-887,"Before Criminalising Vande Mataram, Parliament Must Define Offence",8.0
+like_only,0.0,9,20260917120000-744,Here's what to know about Russia's parliamentary vote and its main parties,9.0
+like_only,0.0,10,20260927120000-309,QUIZ: A time to celebrate democracy,10.0
+like_only,0.05,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+like_only,0.05,2,20261007120000-907,This election is about reclaiming the federal government,2.0
+like_only,0.05,3,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+like_only,0.05,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+like_only,0.05,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+like_only,0.05,6,20260902120000-394,Palau takes charge as Forum Leaders begin talks,6.0
+like_only,0.05,7,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+like_only,0.05,8,20260927120000-309,QUIZ: A time to celebrate democracy,10.0
+like_only,0.05,9,20260803120000-158,Prashant Kishor's electoral debut: From UN health programmes to the Bankipur ballot,
+like_only,0.05,10,20260917120000-744,Here's what to know about Russia's parliamentary vote and its main parties,9.0
+like_only,0.1,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+like_only,0.1,2,20261007120000-907,This election is about reclaiming the federal government,2.0
+like_only,0.1,3,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+like_only,0.1,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+like_only,0.1,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+like_only,0.1,6,20260818120000-13,Fresh migrant proposal to ease social tensions,
+like_only,0.1,7,20260803120000-158,Prashant Kishor's electoral debut: From UN health programmes to the Bankipur ballot,
+like_only,0.1,8,20260927120000-309,QUIZ: A time to celebrate democracy,10.0
+like_only,0.1,9,20260724120000-997,"A pact, then a spanner: What the US-Saudi Arabia civil nuclear deal actually contains, and why it may not hold",
+like_only,0.1,10,20260714120000-654,Liberia: Battle for Control of Liberia People's Party,
+like_only,0.15,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+like_only,0.15,2,20261007120000-907,This election is about reclaiming the federal government,2.0
+like_only,0.15,3,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+like_only,0.15,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+like_only,0.15,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+like_only,0.15,6,20260818120000-13,Fresh migrant proposal to ease social tensions,
+like_only,0.15,7,20260803120000-158,Prashant Kishor's electoral debut: From UN health programmes to the Bankipur ballot,
+like_only,0.15,8,20260729120000-1000,The Abrahamic trap: Why linking the US–Saudi nuclear pact to normalisation is a geopolitical mirage,
+like_only,0.15,9,20260927120000-309,QUIZ: A time to celebrate democracy,10.0
+like_only,0.15,10,20260714120000-654,Liberia: Battle for Control of Liberia People's Party,
+dislike_only,0.0,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+dislike_only,0.0,2,20261007120000-907,This election is about reclaiming the federal government,2.0
+dislike_only,0.0,3,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+dislike_only,0.0,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+dislike_only,0.0,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+dislike_only,0.0,6,20260902120000-394,Palau takes charge as Forum Leaders begin talks,6.0
+dislike_only,0.0,7,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+dislike_only,0.0,8,20260813120000-887,"Before Criminalising Vande Mataram, Parliament Must Define Offence",8.0
+dislike_only,0.0,9,20260917120000-744,Here's what to know about Russia's parliamentary vote and its main parties,9.0
+dislike_only,0.0,10,20260927120000-309,QUIZ: A time to celebrate democracy,10.0
+dislike_only,0.05,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+dislike_only,0.05,2,20261007120000-96,Senator: Belarus supports enhancing role of parliamentary diplomacy in resolving conflicts,
+dislike_only,0.05,3,20261007120000-907,This election is about reclaiming the federal government,2.0
+dislike_only,0.05,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+dislike_only,0.05,5,20261013120000-366,Squabbles and sparks fly as party leaders go head to head,
+dislike_only,0.05,6,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+dislike_only,0.05,7,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+dislike_only,0.05,8,20260917120000-744,Here's what to know about Russia's parliamentary vote and its main parties,9.0
+dislike_only,0.05,9,20260813120000-887,"Before Criminalising Vande Mataram, Parliament Must Define Offence",8.0
+dislike_only,0.05,10,20260724120000-997,"A pact, then a spanner: What the US-Saudi Arabia civil nuclear deal actually contains, and why it may not hold",
+dislike_only,0.1,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+dislike_only,0.1,2,20260729120000-707,Report: Israeli and Emirati officials held secret talks on Iran,
+dislike_only,0.1,3,20261007120000-96,Senator: Belarus supports enhancing role of parliamentary diplomacy in resolving conflicts,
+dislike_only,0.1,4,20260823120000-261,Burnham To Hand Mayors Power To Take Over Local Planning Decisions,
+dislike_only,0.1,5,20261013120000-366,Squabbles and sparks fly as party leaders go head to head,
+dislike_only,0.1,6,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+dislike_only,0.1,7,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+dislike_only,0.1,8,20260917120000-744,Here's what to know about Russia's parliamentary vote and its main parties,9.0
+dislike_only,0.1,9,20260902120000-8,GovCon - Federal Times,
+dislike_only,0.1,10,20260719120000-225,"MP Cabinet clears UCC Bill; covers marriage, inheritance, live-in relations",
+dislike_only,0.15,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+dislike_only,0.15,2,20260729120000-707,Report: Israeli and Emirati officials held secret talks on Iran,
+dislike_only,0.15,3,20261007120000-96,Senator: Belarus supports enhancing role of parliamentary diplomacy in resolving conflicts,
+dislike_only,0.15,4,20260823120000-261,Burnham To Hand Mayors Power To Take Over Local Planning Decisions,
+dislike_only,0.15,5,20261013120000-859,Xi Jinping and Governor General of Papua New Guinea Bob Dadae Exchange Congratulatory Messages on the 50th Anniversary of Diplomatic Relations Between China and Papua New Guinea,
+dislike_only,0.15,6,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+dislike_only,0.15,7,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+dislike_only,0.15,8,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+dislike_only,0.15,9,20260813120000-247,MIRAI 2026 – Japan's Friendship Ties Program (Norway),
+dislike_only,0.15,10,20260724120000-997,"A pact, then a spanner: What the US-Saudi Arabia civil nuclear deal actually contains, and why it may not hold",
+like_and_dislike,0.0,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+like_and_dislike,0.0,2,20261007120000-907,This election is about reclaiming the federal government,2.0
+like_and_dislike,0.0,3,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+like_and_dislike,0.0,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+like_and_dislike,0.0,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+like_and_dislike,0.0,6,20260902120000-394,Palau takes charge as Forum Leaders begin talks,6.0
+like_and_dislike,0.0,7,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+like_and_dislike,0.0,8,20260813120000-887,"Before Criminalising Vande Mataram, Parliament Must Define Offence",8.0
+like_and_dislike,0.0,9,20260917120000-744,Here's what to know about Russia's parliamentary vote and its main parties,9.0
+like_and_dislike,0.0,10,20260927120000-309,QUIZ: A time to celebrate democracy,10.0
+like_and_dislike,0.05,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+like_and_dislike,0.05,2,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+like_and_dislike,0.05,3,20260719120000-283,What Sustains a Commitment to Dialogue? | Dialogue Across Borders,
+like_and_dislike,0.05,4,20260902120000-8,GovCon - Federal Times,
+like_and_dislike,0.05,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+like_and_dislike,0.05,6,20261013120000-859,Xi Jinping and Governor General of Papua New Guinea Bob Dadae Exchange Congratulatory Messages on the 50th Anniversary of Diplomatic Relations Between China and Papua New Guinea,
+like_and_dislike,0.05,7,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+like_and_dislike,0.05,8,20260724120000-997,"A pact, then a spanner: What the US-Saudi Arabia civil nuclear deal actually contains, and why it may not hold",
+like_and_dislike,0.05,9,20260927120000-309,QUIZ: A time to celebrate democracy,10.0
+like_and_dislike,0.05,10,20260803120000-158,Prashant Kishor's electoral debut: From UN health programmes to the Bankipur ballot,
+like_and_dislike,0.1,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+like_and_dislike,0.1,2,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+like_and_dislike,0.1,3,20260719120000-283,What Sustains a Commitment to Dialogue? | Dialogue Across Borders,
+like_and_dislike,0.1,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+like_and_dislike,0.1,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+like_and_dislike,0.1,6,20261013120000-859,Xi Jinping and Governor General of Papua New Guinea Bob Dadae Exchange Congratulatory Messages on the 50th Anniversary of Diplomatic Relations Between China and Papua New Guinea,
+like_and_dislike,0.1,7,20260724120000-997,"A pact, then a spanner: What the US-Saudi Arabia civil nuclear deal actually contains, and why it may not hold",
+like_and_dislike,0.1,8,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+like_and_dislike,0.1,9,20260902120000-8,GovCon - Federal Times,
+like_and_dislike,0.1,10,20260803120000-158,Prashant Kishor's electoral debut: From UN health programmes to the Bankipur ballot,
+like_and_dislike,0.15,1,20260828120000-918,"Thailand Update: Major Trends in Politics, Economy, Tourism, and Society",1.0
+like_and_dislike,0.15,2,20260719120000-283,What Sustains a Commitment to Dialogue? | Dialogue Across Borders,
+like_and_dislike,0.15,3,20260917120000-236,2027: Opposition coalition moves to accept more parties,3.0
+like_and_dislike,0.15,4,20260922120000-1196,"With war, climate change and AI, it's a troubled world as leaders convene at the United Nations",4.0
+like_and_dislike,0.15,5,20261002120000-924,The mixed results of the anti-ICC US campaign in Latin America,5.0
+like_and_dislike,0.15,6,20261013120000-859,Xi Jinping and Governor General of Papua New Guinea Bob Dadae Exchange Congratulatory Messages on the 50th Anniversary of Diplomatic Relations Between China and Papua New Guinea,
+like_and_dislike,0.15,7,20260724120000-997,"A pact, then a spanner: What the US-Saudi Arabia civil nuclear deal actually contains, and why it may not hold",
+like_and_dislike,0.15,8,20260803120000-912,PBEd seeks education governance continuity beyond political cycles,7.0
+like_and_dislike,0.15,9,20260813120000-247,MIRAI 2026 – Japan's Friendship Ties Program (Norway),
+like_and_dislike,0.15,10,20260803120000-158,Prashant Kishor's electoral debut: From UN health programmes to the Bankipur ballot,
