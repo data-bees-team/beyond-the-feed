@@ -47,7 +47,7 @@ def render_sidebar_auth():
     if "user_id" not in st.session_state:
         _switch_user(_new_guest_id(), "Guest User")
 
-    if "account_type" not in st.session_state:
+    if st.session_state.get("account_type") not in {"guest", "registered"}:
         # Treat older sessions as guests until they authenticate again.
         _switch_user(_new_guest_id(), "Guest User")
 
@@ -76,11 +76,14 @@ def render_sidebar_auth():
         return
 
     # -------------------------------
-    # GUEST / DEMO / LOGIN / SIGNUP
+    # GUEST / LOGIN / SIGNUP
     # -------------------------------
+    if st.session_state.get("auth_mode") == "Demo Personas":
+        st.session_state["auth_mode"] = "Guest"
+
     mode = st.sidebar.radio(
         "Account",
-        ["Guest", "Demo Personas", "Login", "Sign Up"],
+        ["Guest", "Login", "Sign Up"],
         key="auth_mode",
     )
 
@@ -91,31 +94,6 @@ def render_sidebar_auth():
                 st.rerun()
         else:
             st.sidebar.caption("Browsing as Guest")
-
-    elif mode == "Demo Personas":
-        personas = [
-            p for p in mgr.get_demo_personas()
-            if p["user_id"] != "demo_guest"
-        ]
-
-        selected_name = st.sidebar.selectbox(
-            "Choose a demo reader",
-            [p["username"] for p in personas],
-        )
-
-        if st.sidebar.button("Load Demo Profile"):
-            persona = next(
-                p for p in personas
-                if p["username"] == selected_name
-            )
-
-            _switch_user(
-                persona["user_id"],
-                persona["username"],
-                persona["selected_topics"],
-                account_type="demo",
-            )
-            st.rerun()
 
     elif mode == "Login":
         with st.sidebar.form("login_form"):
@@ -128,14 +106,14 @@ def render_sidebar_auth():
                 username, password
             )
 
-            if ok:
+            if ok and user.get("is_demo"):
+                st.sidebar.error("Demo profiles are no longer available. Please create your own account.")
+            elif ok:
                 _switch_user(
                     user["user_id"],
                     user["username"],
                     user["selected_topics"],
-                    account_type=(
-                        "demo" if user["is_demo"] else "registered"
-                    ),
+                    account_type="registered",
                 )
                 st.session_state["welcome_message"] = (
                     f"Welcome back, {user['username']}! 👋"
@@ -183,8 +161,3 @@ def render_sidebar_auth():
         f"Active profile: {st.session_state['username']}"
     )
 
-    if account_type == "demo":
-        if st.sidebar.button("Exit Demo Profile"):
-            _switch_user(_new_guest_id(), "Guest User")
-            st.session_state["auth_mode"] = "Guest"
-            st.rerun()

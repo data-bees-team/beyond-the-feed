@@ -91,13 +91,7 @@ if os.path.exists(css_path):
 # =====================================
 # PAGE HEADER
 # =====================================
-hour = datetime.now().hour
-if hour < 12:
-    greeting = "Good Morning"
-elif hour < 17:
-    greeting = "Good Afternoon"
-else:
-    greeting = "Good Evening"
+greeting = "Hello"
 
 st.markdown(
     f"""
